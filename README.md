@@ -20,3 +20,12 @@
 ## Genaro:
 - Create a graphical user interface for the above functions
 - Create a simulator for the IMS
+
+#Instructions
+Create a branch and push all the changes to your branch. Once your changes work, make a pull request to master so that it can be reviewed by the members of the team.
+
+###How to create a branch?
+- In terminal:
+  - __git checkout master__. This will make sure that you are on master when the branch is created.
+	- __git checkout -b name-of-branch__. This creates the branch "name-of-branch" and switches to this branch.
+
