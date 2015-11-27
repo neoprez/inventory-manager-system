@@ -1,7 +1,7 @@
 #TO DO's
 
 ##Rodny:
-- Create database schemes
+~~- Create database schemes~~
 
 ##Larry: 
 - Create Java classes that interact with the Store
