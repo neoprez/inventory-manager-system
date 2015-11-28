@@ -5,7 +5,7 @@ USE inventory_manager;
 CREATE TABLE categories (
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	name VARCHAR(255),
-	date_created DATETIME
+	date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE products (
@@ -14,7 +14,7 @@ CREATE TABLE products (
 	stock_price DOUBLE,
 	on_sale_price DOUBLE,
 	category_id INT,
-	date_created DATETIME,
+	date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	thumbnail VARCHAR(255) /* path to the image thumbnail of product */
 );
 
@@ -29,7 +29,7 @@ CREATE TABLE supermarkets (
 	no_of_registers INT(5),
 	opening_time TIME,
 	closing_time TIME,
-	date_created DATETIME
+	date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE employees (
@@ -37,7 +37,7 @@ CREATE TABLE employees (
 	first_name VARCHAR(255),
 	last_name VARCHAR(255),
 	store_id BIGINT(20),
-	date_created DATETIME,
+	date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	position VARCHAR(255) /* Store manager, cashier, etc..*/
 );
 
@@ -53,7 +53,7 @@ CREATE TABLE orders (
 	net_amount DOUBLE,
 	tax_percent DOUBLE,
 	total_amount DOUBLE,
-	date_created DATETIME,
+	date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	employee_id BIGINT(20), /* The id of the employee */	
 	order_type INT(1), /* 0 - New order, 1 - Exchange, 2 - Cancelled order */
 	products_count INT
@@ -72,12 +72,12 @@ CREATE TABLE threshold_notifications_list (
 	store_id BIGINT(20),
 	manager_id BIGINT(20),
 	frequency INT(1), /* 0 - immediately, 1- hourly, 2- daily */
-	date_created DATETIME
+	date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE sent_notifications (
 	id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,  /* The id of this sent notification*/
-	date_created DATETIME, /*date and time last sent */
+	date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, /*date and time last sent */
 	product_upc INT(12),
 	current_stock INT,
 	manager_id BIGINT(20)
