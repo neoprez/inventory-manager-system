@@ -2,6 +2,7 @@
 
 ##Rodny:
 ~~- Create database schemes~~
+- Create java file to access the data from the database.
 
 ##Larry: 
 - Create Java classes that interact with the Store
