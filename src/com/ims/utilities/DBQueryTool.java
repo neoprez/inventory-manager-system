@@ -21,18 +21,19 @@ public class DBQueryTool {
 		ResultSet rs = null;
 		Connection con = DBConnector.getConnection();
 
-		String[][] employees = new String[1][5];
+		String[][] employees = new String[1][6];
 		
 		try {
 			st = con.createStatement();
 			rs = st.executeQuery("SELECT * FROM employees");
 			
 			while(rs.next()) {
-				employees[0][0] = rs.getString(1);
-				employees[0][1] = rs.getString(2);
-				employees[0][2] = rs.getString(3);
-				employees[0][3] = rs.getString(4);
-				employees[0][4] = rs.getString(5);
+				employees[0][0] = rs.getString("id");
+				employees[0][1] = rs.getString("first_name");
+				employees[0][2] = rs.getString("last_name");
+				employees[0][3] = rs.getString("store_id");
+				employees[0][4] = rs.getString("position");
+				employees[0][5] = rs.getString("date_created");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
