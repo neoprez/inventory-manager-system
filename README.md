@@ -23,6 +23,8 @@
 - Create a simulator for the IMS
 
 #Instructions
+To facilitate development please install __eclipse__.
+
 Create a branch and push all the changes to your branch. Once your changes work, make a pull request to master so that it can be reviewed by the members of the team.
 
 ###How to create a branch?
@@ -30,3 +32,7 @@ Create a branch and push all the changes to your branch. Once your changes work,
   - __git checkout master__. This will make sure that you are on master when the branch is created.
 	- __git checkout -b name-of-branch__. This creates the branch "name-of-branch" and switches to this branch.
 
+###How to install eclipse?
+Please follow [this](http://www.eclipse.org/downloads/) link.
+
+Once downloaded import the files on this repo as a project.
