@@ -9,7 +9,7 @@ CREATE TABLE categories (
 );
 
 CREATE TABLE products (
-	upc INT(12) NOT NULL PRIMARY KEY,
+	upc VARCHAR(12) NOT NULL PRIMARY KEY,
 	name VARCHAR(255),
 	stock_price DOUBLE,
 	on_sale_price DOUBLE,
