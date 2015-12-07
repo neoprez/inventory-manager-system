@@ -96,7 +96,8 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 					JOptionPane.ERROR_MESSAGE);
 				if(answer == 0){
 					resupplyNotificationView resupplyWindow = new resupplyNotificationView();
-					//resupplyWindow.example;
+					this.setVisible(false);
+					resupplyWindow.setVisible(true);
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "You have cancelled the notification");
