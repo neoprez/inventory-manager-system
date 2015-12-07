@@ -179,10 +179,10 @@ public class DBQueryTool {
 		/*if( DBQueryTool.addProduct("123212435412", "Pickles", 0.99, 1.1, 0, "") ) {
 			System.out.println("Product successfully added.");
 		}*/
-		ArrayList<String[]> products = DBQueryTool.getProducts(); //DBQueryTool.getEmployees();
+		/*ArrayList<String[]> products = DBQueryTool.getProducts(); //DBQueryTool.getEmployees();
 		
 		for(String[] product : products ) {
 			System.out.println(Arrays.toString(product));
-		}
+		}*/
 	}
 }
