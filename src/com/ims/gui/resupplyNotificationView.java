@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class resupplyNotificationView extends JPanel {
@@ -12,8 +13,9 @@ public class resupplyNotificationView extends JPanel {
 	public resupplyNotificationView() {
 		
 		setVisible(true);
-		setBackground(Color.BLACK);
+		setBackground(Color.lightGray);
 		add(example);
+		
 		
 		
 	}
