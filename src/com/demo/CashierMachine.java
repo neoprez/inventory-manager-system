@@ -51,8 +51,6 @@ public class CashierMachine {
 	
 	public void addProduct(Product p) {
 		this.order.addProduct(p);
-		System.out.print("CASHIER MACHINE #" + this.id);
-		System.out.println(" - " + p + " added to order #" + this.order.getId());
 	}
 	
 	public Order completeOrder() {
