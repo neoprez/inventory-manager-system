@@ -1,4 +1,5 @@
 package com.ims.gui;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -21,17 +22,17 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 	String newDistributor = "";
 	String newCategory = "";
 	
-	JLabel IMS = new JLabel("Inventory Management System");
-	JLabel productInfo = new JLabel("Product Information");
-	JLabel name = new JLabel("Name:");
-	JLabel barcode = new JLabel("Barcode:");
-	JLabel price = new JLabel("Price");
-	JLabel manufacturer = new JLabel("Manufacturer:");
-	JLabel distributor = new JLabel("Distributor:");
-	JLabel category = new JLabel("Category");
+	JLabel IMSLabel = new JLabel("Inventory Management System");
+	JLabel productInfoLabel = new JLabel("Product Information");
+	JLabel nameLabel = new JLabel("Name:");
+	JLabel upcLabel = new JLabel("UPC:");
+	JLabel priceLabel = new JLabel("Price");
+	JLabel manufacturerLabel = new JLabel("Manufacturer:");
+	JLabel distributorLabel = new JLabel("Distributor:");
+	JLabel categoryLabel = new JLabel("Category");
 	
 	JTextField nameTextField = new JTextField("Enter name");
-	JTextField barcodeTextField = new JTextField("Enter the barcode");
+	JTextField upcTextField = new JTextField("Enter the barcode");
 	JTextField priceTextField = new JTextField("Enter the price");
 	JTextField manufacturerTextField = new JTextField("Enter the Manufacturer");
 	JTextField distributorTextField = new JTextField("Enter the distributor");
@@ -43,29 +44,38 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 	public inventoryManagementSystemView(){
 		
 		setBackground(Color.LIGHT_GRAY);
-		setLayout(new GridLayout(0,2,20,20));
-		add(IMS);
-		IMS.setPreferredSize(new Dimension(400, 150));
-		IMS.setBorder(BorderFactory.createEmptyBorder(0, 106, 0, 0));
+		setLayout(new GridLayout(0,2,30,30));
+		add(IMSLabel);
+		IMSLabel.setPreferredSize(new Dimension(400, 150));
+		IMSLabel.setBorder(BorderFactory.createEmptyBorder(0, 106, 0, 0));
 		
-		add(productInfo);
+		add(productInfoLabel);
 		
-		add(name);
+		add(nameLabel);
+		nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
 		add(nameTextField);
 		
-		add(barcode);
-		add(barcodeTextField);
 		
-		add(price);
+		add(upcLabel);
+		upcLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
+		add(upcTextField);
+		
+		
+		add(priceLabel);
+		priceLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
 		add(priceTextField);
+	
 		
-		add(manufacturer);
+		add(manufacturerLabel);
+		manufacturerLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
 		add(manufacturerTextField);
 		
-		add(distributor);
+		add(distributorLabel);
+		distributorLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
 		add(distributorTextField);
 		
-		add(category);
+		add(categoryLabel);
+		categoryLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
 		add(categoryTextField);
 		
 		
@@ -76,8 +86,6 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 		add(resetButton);
 		resetButton.setPreferredSize(new Dimension(200, 150));
 		resetButton.addActionListener(this);
-		
-		
 		
 		
 	}
@@ -95,9 +103,8 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 					JOptionPane.YES_NO_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 				if(answer == 0){
-					resupplyNotificationView resupplyWindow = new resupplyNotificationView();
-					this.setVisible(false);
-					resupplyWindow.setVisible(true);
+					resupplyNotificationView frame = new resupplyNotificationView();// you can have your own parameters of course	
+					frame.setVisible(true);
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "You have cancelled the notification");
@@ -108,7 +115,7 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 		// action to clear all the textfields
 		else if(e.getActionCommand()==("Reset")){ 
 			nameTextField.setText("");
-			barcodeTextField.setText("");
+			upcTextField.setText("");
 			priceTextField.setText("");
 			manufacturerTextField.setText("");
 			distributorTextField.setText("");

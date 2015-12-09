@@ -5,21 +5,19 @@ import javax.swing.JFrame;
 
 
 
-public class Inventory_Management_System extends JFrame {
-	private generateReportView theReportView = null;
+public class IMS extends JFrame {
+	
 		
-		public Inventory_Management_System() {
-			this.theReportView = new generateReportView();
+		public IMS() {
+			
 			setSize(1280, 750);
-			add(new stockView(), BorderLayout.WEST);
 			add(new inventoryView(), BorderLayout.EAST);
-			add(new inventoryManagementSystemView(), BorderLayout.CENTER);
+			add(new inventoryManagementSystemView(), BorderLayout.WEST);
 			setVisible(true);
-			add(new resupplyNotificationView());
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 		
 	public static void main(String[] args) {
-		new Inventory_Management_System();
+		new IMS();
 	}
 }
