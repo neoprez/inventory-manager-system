@@ -33,7 +33,7 @@ public class IMSDemo {
 		cms.addProduct(new Product("123456789012", "Banana", 0.99, 1));
 		cms.addProduct(new Product("123498789012", "Apple", 1.00, 1));
 		cms.addProduct(new Product("984023582395", "Cheese", 2.99, 2));
-		cms.addProduct(new Product("123840320458", "Guacamole", 5.99, 5));
+		cms.addProduct(new Product("123840320458", "Guacamole", 5.99,1));
 		cms.addProduct(new Product("785325623552", "Bacon", 0.99,6));
 		Order order1 = cms.completeOrder();
 		os.sendOrder(order1);

@@ -31,6 +31,10 @@ public class Product implements Serializable{
 		this(upc, name, price, categoryId, distributorId, manufacturerId, null);
 	}
 	
+	public Product(String upc, String name, double price, int categoryId){
+		this(upc, name, price, categoryId, 0, 0, null);
+	}
+	
 	public Product() {
 		this("", "", 0.0, 0, 0, 0);
 	}
