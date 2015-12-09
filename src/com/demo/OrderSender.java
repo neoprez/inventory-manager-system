@@ -47,8 +47,8 @@ class ClientSender extends Thread {
 		ObjectOutputStream outToServer;
 		try {
 			outToServer = new ObjectOutputStream(orderReceiverSocket.getOutputStream());
-	        System.out.print("ORDER SENDER - ");
-	        System.out.println("SERIALIZING OBJECT....");
+	        //System.out.print("ORDER SENDER - ");
+	        //System.out.println("SERIALIZING OBJECT....");
 	        outToServer.writeObject(order);
 		} catch (IOException e) {
 			e.printStackTrace();
