@@ -7,14 +7,16 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class inventoryView extends JPanel implements ActionListener {
 
 		JLabel inventoryLabel = new JLabel("INVENTORY");
-		JButton updateInventory = new JButton("Update Inventory");
-		JButton restockInventory = new JButton("Restock Inventory");
-		JButton generateReportforInventory = new JButton ("Generate Report");	
+		JButton addInventoryButton = new JButton("Add Product to Inventory");
+		JButton removeProductFromInventoryButton = new JButton("Remove Product From Inventory");
+		JButton generateReportforInventoryButton = new JButton ("Generate Report");	
+		JButton restockInventoryButton = new JButton("Restock Inventory");
 		
 		public inventoryView() {
 			
@@ -24,32 +26,90 @@ public class inventoryView extends JPanel implements ActionListener {
 		add(inventoryLabel);
 		inventoryLabel.setBorder(BorderFactory.createEmptyBorder(0, 165, 0, 0));
 		
-		add(updateInventory);
-		updateInventory.setPreferredSize(new Dimension(400, 200));
-		updateInventory.addActionListener(this);
+		add(addInventoryButton);
+		addInventoryButton.setPreferredSize(new Dimension(400, 200));
+		addInventoryButton.addActionListener(this);
 		
-		add(restockInventory);
-		restockInventory.setPreferredSize(new Dimension(400, 200));
-		restockInventory.addActionListener(this);
+		add(removeProductFromInventoryButton);
+		removeProductFromInventoryButton.setPreferredSize(new Dimension(400, 200));
+		removeProductFromInventoryButton.addActionListener(this);
 		
-		add(generateReportforInventory);
-		generateReportforInventory.setPreferredSize(new Dimension(400, 200));
-		generateReportforInventory.addActionListener(this);
+		add(generateReportforInventoryButton);
+		generateReportforInventoryButton.setPreferredSize(new Dimension(400, 200));
+		generateReportforInventoryButton.addActionListener(this);
 			
+		add(restockInventoryButton);
+		restockInventoryButton.setPreferredSize(new Dimension(400, 200));
+		restockInventoryButton.addActionListener(this);
 		
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			if(e.getActionCommand()==("Update Inventory")){
-				// system will update inventory from here
+			if(e.getActionCommand()==("Add Product to Inventory")){
+				int answer = JOptionPane.showConfirmDialog(null,
+						"Would you like to set an alert to be notified if you need to restock your inventory?",
+						"Title",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+					if(answer == 0){
+						addProductToInventoryView frame = new addProductToInventoryView();// you can have your own parameters of course	
+						frame.setVisible(true);
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "You have cancelled the notification");
+			
+					}
+
 			}
+			
 			else if(e.getActionCommand()==("Restock Inventory")){
-				// system will restock inventory from here
+				int answer = JOptionPane.showConfirmDialog(null,
+						"Would you like to set an alert to be notified if you need to restock your inventory?",
+						"Title",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+					if(answer == 0){
+						inventoryRestockView frame = new inventoryRestockView();// you can have your own parameters of course	
+						frame.setVisible(true);
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "You have cancelled the notification");
+			
+					}
+			}
+			
+			else if(e.getActionCommand()==("Remove Product From Inventory")){
+				int answer = JOptionPane.showConfirmDialog(null,
+						"Would you like to set an alert to be notified if you need to restock your inventory?",
+						"Title",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+					if(answer == 0){
+						removeProductFromInventoryView frame = new removeProductFromInventoryView();// you can have your own parameters of course	
+						frame.setVisible(true);
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "You have cancelled the notification");
+			
+					}
 			}
 			else if(e.getActionCommand()==("Generate Report")){
-				// system will generate report of inventory
+				int answer = JOptionPane.showConfirmDialog(null,
+						"Would you like to set an alert to be notified if you need to restock your inventory?",
+						"Title",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+					if(answer == 0){
+						generateReportView frame = new generateReportView();// you can have your own parameters of course	
+						frame.setVisible(true);
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "You have cancelled the notification");
+			
+					}
+				
 			}
 		}
 	
