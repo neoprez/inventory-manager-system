@@ -13,9 +13,4 @@ public class InventoryTracker {
 	public void notifyManager() {
 		
 	}
-	
-	public static void main(String[] args) {
-		OrderReceiver.initialize();
-		//new InventoryTracker().start();
-	}
 }
