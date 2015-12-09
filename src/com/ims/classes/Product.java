@@ -2,6 +2,7 @@ package com.ims.classes;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.Date;
 
 public class Product implements Serializable{
 	/**
@@ -11,18 +12,27 @@ public class Product implements Serializable{
 	private String upc;
 	private String name;
 	private double price;
-	private int category;
+	private int categoryId;
+	private int manufacturerId;
+	private int distributorId;
+	private Date dateCreated;
 	private static DecimalFormat formatter = new DecimalFormat("$0.00");
 	
-	public Product(String upc, String name, double price, int category){
-		this.upc 		= upc;
-		this.name 		= name;
-		this.price 		= price;
-		this.category 	= category;
+	public Product(String upc, String name, double price, int categoryId, int distributorId, int manufacturerId, Date dateCreated){
+		this.upc 			= upc;
+		this.name 			= name;
+		this.price 			= price;
+		this.categoryId 	= categoryId;
+		this.distributorId 	= distributorId;
+		this.manufacturerId	= manufacturerId;
+		this.dateCreated	= dateCreated;
+	}
+	public Product(String upc, String name, double price, int categoryId, int distributorId, int manufacturerId){
+		this(upc, name, price, categoryId, distributorId, manufacturerId, null);
 	}
 	
 	public Product() {
-		this("", "", 0.0, 0);
+		this("", "", 0.0, 0, 0, 0);
 	}
 
 	public String getUpc() {
@@ -49,12 +59,32 @@ public class Product implements Serializable{
 		this.price = price;
 	}
 
-	public int getCategory() {
-		return category;
+	public int getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory(int category) {
-		this.category = category;
+	public void setCategory(int categoryId) {
+		this.categoryId = categoryId;
+	}
+	
+	public int getManufacturerId() {
+		return manufacturerId;
+	}
+
+	public void setManufacturerId(int manufacturerId) {
+		this.manufacturerId = manufacturerId;
+	}
+
+	public int getDistributorId() {
+		return distributorId;
+	}
+
+	public void setDistributorId(int distributorId) {
+		this.distributorId = distributorId;
+	}
+	
+	public Date getDateCreated() {
+		return this.dateCreated;
 	}
 	
 	public String toString() {

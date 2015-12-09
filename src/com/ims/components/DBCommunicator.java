@@ -7,9 +7,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.TreeMap;
+import java.sql.Statement;
+import java.util.Date;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -84,7 +85,7 @@ public class DBCommunicator {
 	/*
 	 * Gets a connection to the database
 	 */
-	public static Connection getConnection() {
+	private Connection getConnection() {
 		Connection con = null;
 		
 		String url = DBCommunicator.CONNECTOR + DBCommunicator.HOST + ":" + 
@@ -99,7 +100,7 @@ public class DBCommunicator {
 		return con;
 	}
 	
-	public static void closeConnection(Connection con) {
+	private void closeConnection(Connection con) {
 		try {
 			if( con != null) {
 				con.close();	
@@ -107,5 +108,84 @@ public class DBCommunicator {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void addProductToInventory() {
+		
+	}
+	
+	public void removeProductFromInventory() {
+		
+	}
+	
+	public void setNotificationForProduct() {
+		
+	}
+	
+	public void getUpdateFequencyForStore() {
+		
+	}
+	
+	public void removeNotificationForProduct() {
+		
+	}
+	
+	public void setThresholdForProduct() {
+		
+	}
+	
+	public void updateProductCount() {
+		
+	}
+	
+	/*
+	 * This function returns a product from the database given its upc.
+	 * 
+	 * If the product exists it returns a new Product object 
+	 */
+	public Product getProductByUPC(String upc) {
+		String query 	= "SELECT * FROM products WHERE upc='" + upc + "'";
+		Connection con 	= this.getConnection();
+		Product p		= null;
+				
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			if(rs.next()){
+				p = new Product(
+							rs.getString("upc"),
+							rs.getString("name"),
+							rs.getDouble("price"),
+							rs.getInt("category_id"),
+							rs.getInt("distributor_id"),
+							rs.getInt("manufacturer_id"),
+							rs.getDate("date_created")
+						);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection(con);	
+		}
+		
+		return p;
+	}
+	
+	public void getProductByName() {
+		
+	}
+	
+	public void getProductByBrand() {
+		
+	}
+	
+	public void getProductsBy() {
+		
+	}
+	
+	public void getProductsOnInventoryForStore() {
+		
 	}
 }
