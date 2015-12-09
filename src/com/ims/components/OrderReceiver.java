@@ -11,28 +11,19 @@ import com.ims.classes.Order;
  * This classes receives the orders from the incoming connections and parses
  * the bytes into objects and pass them to the orderProcessor
  */
-public class OrderReceiver {
+public class OrderReceiver implements Runnable {
 	private static OrderProcessor orderProcessor = null; // a single instance for all components
 	private ServerSocket imsSocket;
-	private static OrderReceiver self = new OrderReceiver();
+	//private static OrderReceiver self = new OrderReceiver();
 	private final String COMPONENT_NAME = "ORDER RECEIVER";
 	/*
 	 * A single OrderReceiver per IMS
 	 */
-	private OrderReceiver() {}
+	public OrderReceiver() {}
 	
 	/*
 	 * To initialize this IMS
 	 */
-	public static OrderReceiver createReceiver() {
-		return self; 
-	}
-	
-	public static void initialize() {
-		OrderReceiver receiver = OrderReceiver.createReceiver();
-		receiver.start();
-	}
-	
 	/*
 	 * Wait for orders in whatever we decide to use
 	 */
@@ -63,6 +54,10 @@ public class OrderReceiver {
 				e.printStackTrace();
 			}
         }
+	}
+
+	public void run() {
+		this.start();
 	}
 }
 
