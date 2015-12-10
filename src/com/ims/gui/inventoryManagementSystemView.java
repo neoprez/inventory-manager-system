@@ -25,10 +25,15 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 	
 	JLabel IMSLabel = new JLabel("Inventory Management System");
 	JLabel productInfoLabel = new JLabel("Product Information");
+	JLabel searchLabel = new JLabel("Search:");
+	static JTextField searchField = new JTextField();
 	
-	
-	
-	
+	public static String getSearchField(String searchWord){
+		
+		searchWord = searchField.getText();
+		
+		return searchWord;
+	}
 	
 	String[] columnNames = {"Name",
             "UPC",
@@ -49,7 +54,7 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 		};
 	
 	
-	JTable table = new JTable(product, columnNames);
+	JTable table = new JTable( new ProductsTableModel(product, columnNames) );
 	
 	JButton setResupplyNotification = new JButton("Set Resupply Notification");
 	JButton resetButton = new JButton("Reset");
@@ -57,13 +62,13 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 	public inventoryManagementSystemView(){
 		
 		setBackground(Color.LIGHT_GRAY);
-		setLayout(new GridLayout(0,1));
-		add(IMSLabel);
+		setLayout(new BorderLayout(5,10));
+		add(IMSLabel, BorderLayout.NORTH);
+		add(searchField, BorderLayout.NORTH);
 		IMSLabel.setPreferredSize(new Dimension(400, 150));
-		IMSLabel.setBorder(BorderFactory.createEmptyBorder(0, 106, 0, 0));
-		add(productInfoLabel);
+		//setBorder(BorderFactory.createEmptyBorder(0, 106, 0, 0));
 		
-		add(table);
+		add(table, BorderLayout.CENTER);
 		
 		
 		
