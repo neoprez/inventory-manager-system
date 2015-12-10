@@ -22,7 +22,6 @@ public class inventoryView extends JPanel implements ActionListener {
 			
 		
 		setLayout(new GridLayout(0,1));
-		
 		add(inventoryLabel);
 		inventoryLabel.setBorder(BorderFactory.createEmptyBorder(0, 165, 0, 0));
 		
@@ -42,6 +41,25 @@ public class inventoryView extends JPanel implements ActionListener {
 		restockInventoryButton.setPreferredSize(new Dimension(400, 200));
 		restockInventoryButton.addActionListener(this);
 		
+		}
+		
+		
+		
+		
+		public void removeProduct(){
+			
+			
+			
+		}
+		
+		public void setNotification(){
+			
+			
+		}
+		
+		public void removeNotification(){
+			
+			
 		}
 
 		@Override
