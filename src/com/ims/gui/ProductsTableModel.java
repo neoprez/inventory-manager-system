@@ -24,6 +24,7 @@ public class ProductsTableModel extends AbstractTableModel {
 	public void setValueAt(Object inValue, int inRow, int inCol){
 		if(inCol==5){
 			products[inRow][inCol] = (Boolean)inValue;
+			
 		}
 		
 	}
