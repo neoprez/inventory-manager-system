@@ -11,28 +11,19 @@ import com.ims.classes.Order;
  * This classes receives the orders from the incoming connections and parses
  * the bytes into objects and pass them to the orderProcessor
  */
-public class OrderReceiver {
-	private static OrderProcessor orderProcessor = null; // a single instance for all components
+public class OrderReceiver implements Runnable {
+	private OrderProcessor orderProcessor; // a single instance for all components
 	private ServerSocket imsSocket;
-	private static OrderReceiver self = new OrderReceiver();
+	//private static OrderReceiver self = new OrderReceiver();
 	private final String COMPONENT_NAME = "ORDER RECEIVER";
 	/*
 	 * A single OrderReceiver per IMS
 	 */
-	private OrderReceiver() {}
+	public OrderReceiver() {}
 	
 	/*
 	 * To initialize this IMS
 	 */
-	public static OrderReceiver createReceiver() {
-		return self; 
-	}
-	
-	public static void initialize() {
-		OrderReceiver receiver = OrderReceiver.createReceiver();
-		receiver.start();
-	}
-	
 	/*
 	 * Wait for orders in whatever we decide to use
 	 */
@@ -53,40 +44,44 @@ public class OrderReceiver {
         while(true)
         {
            try {
-        	   System.out.print(COMPONENT_NAME);
-        	   System.out.println( " - Waiting for orders...");
         	   connectionSocket = imsSocket.accept();
         	   System.out.print(COMPONENT_NAME);
         	   System.out.println(" - Incomming connection...");
-        	   new OrderReceiverThread(connectionSocket.getInputStream()).start();;
+        	   Order order = desearilizeStreamIntoOrder( connectionSocket.getInputStream() );
+        	   sendOrderToProcessor(order);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
         }
 	}
-}
-
-class OrderReceiverThread extends Thread {
-	private ObjectInputStream inputStream;
 	
-	public OrderReceiverThread(InputStream inputStream) {
-		try {
-			this.inputStream = new ObjectInputStream(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void start() {
+	private Order desearilizeStreamIntoOrder(InputStream inputStream) {
 		Order order = null;
 		try {
-			order = (Order)inputStream.readObject();
-			System.out.println("Order #" + order.getId() + " from cashier id#" + order.getEmployeeId() +" received, sending to ORDER PROCESSOR...");
-	        System.out.println(order);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			ObjectInputStream objStream = new ObjectInputStream(inputStream);
+			try {
+				order = (Order)objStream.readObject();
+				//System.out.println("Order #" + order.getId() + " from cashier id#" + order.getEmployeeId() +" received, sending to ORDER PROCESSOR...");
+		        //System.out.println(order);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return order;
+	}
+	
+	private void sendOrderToProcessor(Order order) {
+		orderProcessor.queueOrder(order);
+	}
+
+	public void run() {
+		this.start();
+	}
+	
+	public void setOrderProcessor(OrderProcessor orderProcessor) {
+		this.orderProcessor = orderProcessor;
 	}
 }
