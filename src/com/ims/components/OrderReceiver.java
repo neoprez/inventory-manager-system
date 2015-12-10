@@ -44,12 +44,11 @@ public class OrderReceiver implements Runnable {
         while(true)
         {
            try {
-        	   System.out.print(COMPONENT_NAME);
-        	   System.out.println( " - Waiting for orders...");
         	   connectionSocket = imsSocket.accept();
         	   System.out.print(COMPONENT_NAME);
         	   System.out.println(" - Incomming connection...");
         	   Order order = desearilizeStreamIntoOrder( connectionSocket.getInputStream() );
+        	   sendOrderToProcessor(order);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -64,8 +63,6 @@ public class OrderReceiver implements Runnable {
 				order = (Order)objStream.readObject();
 				//System.out.println("Order #" + order.getId() + " from cashier id#" + order.getEmployeeId() +" received, sending to ORDER PROCESSOR...");
 		        //System.out.println(order);
-				sendOrderToProcessor(order);
-				
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
