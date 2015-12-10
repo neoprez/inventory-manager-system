@@ -18,18 +18,17 @@ public class OrderProcessor implements Runnable {
 	}
 	
 	private void processOrders() {
-		synchronized(OrderProcessor.lock) {
+		synchronized(orders) {
 			while(true){
 				if( this.anyOrders() ) {
 					//update the inventory for the store in the order
-					System.out.println("I have an order");
 					Order order = this.orders.poll();
 					System.out.println("Order #" + order.getId());
 				} else {
 					// wait 5 secs for the orders Queue to have something
 					try {
 						System.out.println("No orders");
-						OrderProcessor.lock.wait(5000);
+						orders.wait(500);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
