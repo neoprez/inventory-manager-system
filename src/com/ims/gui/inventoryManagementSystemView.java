@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class inventoryManagementSystemView extends JPanel implements ActionListener {
@@ -24,19 +25,31 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 	
 	JLabel IMSLabel = new JLabel("Inventory Management System");
 	JLabel productInfoLabel = new JLabel("Product Information");
-	JLabel nameLabel = new JLabel("Name:");
-	JLabel upcLabel = new JLabel("UPC:");
-	JLabel priceLabel = new JLabel("Price");
-	JLabel manufacturerLabel = new JLabel("Manufacturer:");
-	JLabel distributorLabel = new JLabel("Distributor:");
-	JLabel categoryLabel = new JLabel("Category");
 	
-	JTextField nameTextField = new JTextField("Enter name");
-	JTextField upcTextField = new JTextField("Enter the barcode");
-	JTextField priceTextField = new JTextField("Enter the price");
-	JTextField manufacturerTextField = new JTextField("Enter the Manufacturer");
-	JTextField distributorTextField = new JTextField("Enter the distributor");
-	JTextField categoryTextField = new JTextField("Enter the category");
+	
+	
+	
+	
+	String[] columnNames = {"Name",
+            "UPC",
+            "Manufacturer",
+            "Distributor",
+            "Category", "Check"};
+	
+	
+	
+	Object[][] product = {
+		    {"Banana", "24384445485",
+		     "Ecuador", "Manga", "Food", false},
+		    {"Apple", "3894745876485",
+		     "USA", "Tupa", "Food", true},
+		    {"Cake", "83945745864",
+		     "Bakery", "HP", "Cleaning", false},
+
+		};
+	
+	
+	JTable table = new JTable(product, columnNames);
 	
 	JButton setResupplyNotification = new JButton("Set Resupply Notification");
 	JButton resetButton = new JButton("Reset");
@@ -44,48 +57,14 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 	public inventoryManagementSystemView(){
 		
 		setBackground(Color.LIGHT_GRAY);
-		setLayout(new GridLayout(0,2,30,30));
+		setLayout(new GridLayout(0,1));
 		add(IMSLabel);
 		IMSLabel.setPreferredSize(new Dimension(400, 150));
 		IMSLabel.setBorder(BorderFactory.createEmptyBorder(0, 106, 0, 0));
-		
 		add(productInfoLabel);
 		
-		add(nameLabel);
-		nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
-		add(nameTextField);
+		add(table);
 		
-		
-		add(upcLabel);
-		upcLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
-		add(upcTextField);
-		
-		
-		add(priceLabel);
-		priceLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
-		add(priceTextField);
-	
-		
-		add(manufacturerLabel);
-		manufacturerLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
-		add(manufacturerTextField);
-		
-		add(distributorLabel);
-		distributorLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
-		add(distributorTextField);
-		
-		add(categoryLabel);
-		categoryLabel.setBorder(BorderFactory.createEmptyBorder(0, 75, 0, 0));
-		add(categoryTextField);
-		
-		
-		add(setResupplyNotification);
-		setResupplyNotification.setPreferredSize(new Dimension(200, 150));
-		setResupplyNotification.addActionListener(this);
-		
-		add(resetButton);
-		resetButton.setPreferredSize(new Dimension(200, 150));
-		resetButton.addActionListener(this);
 		
 		
 	}
@@ -114,12 +93,7 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 		}
 		// action to clear all the textfields
 		else if(e.getActionCommand()==("Reset")){ 
-			nameTextField.setText("");
-			upcTextField.setText("");
-			priceTextField.setText("");
-			manufacturerTextField.setText("");
-			distributorTextField.setText("");
-			categoryTextField.setText("");
+			
 			
 		}
 	}
