@@ -12,10 +12,6 @@ public class OrderProcessor implements Runnable {
 		orders = new LinkedList<Order>();
 	}
 	
-	public void start() {
-		processOrders();
-	}
-	
 	private void processOrders() {
 		while(true){
 			synchronized(orders) {
@@ -37,7 +33,7 @@ public class OrderProcessor implements Runnable {
 	}
 	
 	public void run() {
-		this.start();
+		processOrders();
 	}
 	
 	/*
