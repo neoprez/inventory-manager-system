@@ -5,9 +5,18 @@ import com.ims.classes.Order;
 import com.ims.classes.Product;
 
 public class IMSDemo {
-	public static void main(String[] args) {
-		Supermarket sm = new Supermarket(0);
-		OrderSender os = new OrderSender();
+	private Order[] orders;
+	private OrderSender os;
+	private Supermarket sm;
+	
+	public IMSDemo(int id, int n) {
+		orders = new Order[n];
+		sm = new Supermarket(id);
+		os = new OrderSender();
+		fillArray(id, n);
+	}
+	
+	private void fillArray(int id, int n) {
 		/*
 		 * Employees
 		 */
@@ -25,24 +34,42 @@ public class IMSDemo {
 		cms.setId(1);
 		CashierMachine cms2 = new CashierMachine(cs2, sm);
 		cms2.setId(2);
-		
 		/*
 		 * Orders
 		 */
-		cms.startOrder();
-		cms.addProduct(new Product("123456789012", "Banana", 0.99, 1));
-		cms.addProduct(new Product("123498789012", "Apple", 1.00, 1));
-		cms.addProduct(new Product("984023582395", "Cheese", 2.99, 2));
-		cms.addProduct(new Product("123840320458", "Guacamole", 5.99,1));
-		cms.addProduct(new Product("785325623552", "Bacon", 0.99,6));
-		Order order1 = cms.completeOrder();
-		os.sendOrder(order1);
-
-		cms2.startOrder();
-		cms2.addProduct(new Product("123456789012", "Guevos", 0.99, 1));
-		cms2.addProduct(new Product("123498789012", "Name", 1.00, 1));
-		Order order2 = cms2.completeOrder();
-		os.sendOrder(order2);
-		//os.startComponent();
+		for(int i = 0; i < n; i++) {
+			cms.startOrder();
+			cms.addProduct(new Product("123456789012", "Banana", 0.99, 1));
+			cms.addProduct(new Product("123498789012", "Apple", 1.00, 1));
+			cms.addProduct(new Product("984023582395", "Cheese", 2.99, 2));
+			cms.addProduct(new Product("123840320458", "Guacamole", 5.99,1));
+			cms.addProduct(new Product("785325623552", "Bacon", 0.99,6));
+			orders[i] = cms.completeOrder();
+			orders[i].setId(i+1);
+		}
+	}
+	
+	public void sendAllOrders() {
+		for(Order order : orders ) {
+			os.sendOrder(order);
+		}
+	}
+	
+	public static void main(String[] args) {
+		new Thread(){
+			public void run() {
+				IMSDemo cms1 = new IMSDemo(1,1000);
+				cms1.sendAllOrders();
+			}
+		}.start();
+		
+		new Thread() {
+			public void run() {
+				IMSDemo cms2 = new IMSDemo(67,200);
+				cms2.sendAllOrders();
+			}
+		}.start();
+		
+		
 	}
 }
