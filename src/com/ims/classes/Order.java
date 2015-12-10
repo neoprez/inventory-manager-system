@@ -4,17 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Order implements Serializable{
-	private static final long serialVersionUID = 5950169519310163575L;
-	private int id;
-	private int supermarketId;
-	private int employeeId;
-	private ArrayList<Product> products;
+	private static final long 	serialVersionUID = 5950169519310163575L;
+	private int 				id;
+	private int 				supermarketId;
+	private int 				employeeId;
+	private ArrayList<Product> 	products;
 	
 	public Order(int id, int supermarketId, int employeeId) {
 		this.id				= id;
 		this.supermarketId	= supermarketId;
 		this.employeeId		= employeeId;
-		products 			= new ArrayList<Product>();
+		this.products 		= new ArrayList<Product>();
 	}
 	
 	public Order() {
