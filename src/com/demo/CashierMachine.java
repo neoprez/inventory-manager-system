@@ -43,7 +43,7 @@ public class CashierMachine {
 	}
 	
 	public void startOrder() {
-		this.order = new Order(this.cashier.getId(), this.supermarket.getId());
+		this.order = new Order(this.supermarket.getId(), this.cashier.getId());
 		this.order.setId(new Random().nextInt(100)+1);
 		System.out.print("CASHIER MACHINE #" + this.id);
 		System.out.println(" - started order #" + this.order.getId());
