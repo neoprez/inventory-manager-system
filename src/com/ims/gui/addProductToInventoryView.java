@@ -44,11 +44,11 @@ public class addProductToInventoryView extends JFrame implements ActionListener 
 	
 	Object[][] product = {
 		    {"Banana", "24384445485",
-		     "Ecuador", "Manga", "Food", Boolean.TRUE},
+		     "Ecuador", "Manga", "Food", Boolean.FALSE},
 		    {"Apple", "3894745876485",
 		     "USA", "Tupa", "Food", Boolean.FALSE},
 		    {"Cake", "83945745864",
-		     "Bakery", "HP", "Cleaning", Boolean.TRUE},
+		     "Bakery", "HP", "Cleaning", Boolean.FALSE},
 
 		};
 	

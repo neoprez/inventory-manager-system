@@ -41,7 +41,7 @@ public class resupplyNotificationView extends JFrame {
 		    {"Banana", "24384445485",
 		     "Ecuador", "Manga", "Food", false},
 		    {"Apple", "3894745876485",
-		     "USA", "Tupa", "Food", true},
+		     "USA", "Tupa", "Food", false},
 		    {"Cake", "83945745864",
 		     "Bakery", "HP", "Cleaning", false},
 
@@ -49,6 +49,7 @@ public class resupplyNotificationView extends JFrame {
 	
 	
 	JTable table = new JTable(product, columnNames);
+	
 	
 	
 	public resupplyNotificationView() {

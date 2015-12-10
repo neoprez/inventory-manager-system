@@ -52,10 +52,7 @@ public class inventoryView extends JPanel implements ActionListener {
 			
 		}
 		
-		public void setNotification(){
-			
-			
-		}
+		
 		
 		public void removeNotification(){
 			
@@ -89,7 +86,7 @@ public class inventoryView extends JPanel implements ActionListener {
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 					if(answer == 0){
-						inventoryRestockView frame = new inventoryRestockView();// you can have your own parameters of course	
+						restockView frame = new restockView();// you can have your own parameters of course	
 						frame.setVisible(true);
 					}
 					else{
