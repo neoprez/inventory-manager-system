@@ -1,4 +1,6 @@
 package com.ims.classes;
 
-public class ExchangeOrder extends Order {
+import java.io.Serializable;
+
+public class ExchangeOrder extends Order implements Serializable {
 }
