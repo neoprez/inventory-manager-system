@@ -7,7 +7,6 @@ import com.ims.classes.Order;
 
 public class OrderProcessor implements Runnable {
 	private Queue<Order> orders;
-	static final Object lock = new Object();
 	
 	public OrderProcessor() {
 		orders = new LinkedList<Order>();
@@ -18,17 +17,17 @@ public class OrderProcessor implements Runnable {
 	}
 	
 	private void processOrders() {
-		synchronized(orders) {
-			while(true){
+		while(true){
+			synchronized(orders) {
 				if( this.anyOrders() ) {
 					//update the inventory for the store in the order
 					Order order = this.orders.poll();
-					System.out.println("Order #" + order.getId());
+					System.out.println("Processing Order #" + order.getId() + " from supermarket #" + order.getSupermarketId());
 				} else {
 					// wait 5 secs for the orders Queue to have something
 					try {
 						System.out.println("No orders");
-						orders.wait(500);
+						orders.wait();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -49,6 +48,9 @@ public class OrderProcessor implements Runnable {
 	}
 
 	public void queueOrder(Order order) {
-		orders.add(order);
+		synchronized(orders){
+			orders.add(order);
+			orders.notifyAll();
+		}
 	}
 }
