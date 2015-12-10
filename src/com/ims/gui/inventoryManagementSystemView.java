@@ -28,6 +28,7 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 	JLabel searchLabel = new JLabel("Search:");
 	static JTextField searchField = new JTextField();
 	
+	
 	public static String getSearchField(String searchWord){
 		
 		searchWord = searchField.getText();
@@ -39,18 +40,17 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
             "UPC",
             "Manufacturer",
             "Distributor",
-            "Category", "Check"};
+            "Category", "Count"};
 	
 	
 	
 	Object[][] product = {
 		    {"Banana", "24384445485",
-		     "Ecuador", "Manga", "Food", false},
+		     "Ecuador", "Manga", "Food", "5"},
 		    {"Apple", "3894745876485",
-		     "USA", "Tupa", "Food", true},
+		     "USA", "Tupa", "Food", "4"},
 		    {"Cake", "83945745864",
-		     "Bakery", "HP", "Cleaning", false},
-
+		     "Bakery", "HP", "Cleaning", "23"},
 		};
 	
 	
@@ -63,15 +63,13 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 		
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(new BorderLayout(5,10));
-		add(IMSLabel, BorderLayout.NORTH);
+
 		add(searchField, BorderLayout.NORTH);
-		IMSLabel.setPreferredSize(new Dimension(400, 150));
-		//setBorder(BorderFactory.createEmptyBorder(0, 106, 0, 0));
-		
 		add(table, BorderLayout.CENTER);
-		
-		
-		
+		//add(setResupplyNotification);
+		setResupplyNotification.addActionListener(this);
+		//add(resetButton);
+		resetButton.addActionListener(this);
 	}
 
 
@@ -98,8 +96,7 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 		}
 		// action to clear all the textfields
 		else if(e.getActionCommand()==("Reset")){ 
-			
-			
+			searchField.setText("");
 		}
 	}
 }

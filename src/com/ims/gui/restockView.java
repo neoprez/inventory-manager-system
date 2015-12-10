@@ -56,8 +56,7 @@ public class restockView extends JFrame implements ActionListener {
 	JTable table = new JTable(model);
 	
 	
-	
-		public void removeProduct(){
+		public void restockProduct(){
 		String searchWord = "";
 		searchWord = inventoryManagementSystemView.getSearchField(searchWord);
 		
