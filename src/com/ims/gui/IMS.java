@@ -12,7 +12,7 @@ public class IMS extends JFrame {
 			
 			setSize(1280, 750);
 			add(new inventoryView(), BorderLayout.EAST);
-			add(new inventoryManagementSystemView(), BorderLayout.WEST);
+			add(new inventoryManagementSystemView(), BorderLayout.CENTER);
 			setVisible(true);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
