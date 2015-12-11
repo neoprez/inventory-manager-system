@@ -59,9 +59,9 @@ public class inventoryManagementSystemView extends JPanel{
 		for(InventoryProduct p: products) {
 			product[row][0] = p.getName();
 			product[row][1] = p.getUpc();
-			product[row][2] = p.getManufacturerId();
-			product[row][3] = p.getDistributorId();
-			product[row][4] = p.getCategoryId();
+			product[row][2] = p.getManufacturer().getName();
+			product[row][3] = p.getDistributor().getName();
+			product[row][4] = p.getCategory().getName();
 			product[row][5] = p.getCount();
 			row++;	
 		}
