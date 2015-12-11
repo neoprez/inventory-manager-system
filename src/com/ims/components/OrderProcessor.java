@@ -1,11 +1,13 @@
 package com.ims.components;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import com.ims.classes.CustomerOrder;
 import com.ims.classes.ExchangeOrder;
 import com.ims.classes.Order;
+import com.ims.classes.Product;
 import com.ims.classes.ReturnOrder;
 
 public class OrderProcessor implements Runnable {
@@ -13,7 +15,6 @@ public class OrderProcessor implements Runnable {
 	private DBCommunicator dbAPI;
 	
 	public OrderProcessor() {
-		orders = new LinkedList<Order>();
 		orders 	= new LinkedList<Order>();
 		dbAPI	= new DBCommunicator();
 	}
@@ -54,6 +55,26 @@ public class OrderProcessor implements Runnable {
 			orders.add(order);
 			orders.notifyAll();
 		}
+	}
+	
+	
+	private HashMap<String, Integer> computeCountForProductsInOrder(Order order) {
+		HashMap<String, Integer> productsCountByUPC = new HashMap<String, Integer>();
+		
+		// To compute the count of each product in the order.
+		for(Product product : order.getProducts() ) {
+			String upc = product.getUpc();
+			if( productsCountByUPC.containsKey(upc) ) {
+				// Get current count
+				int count = productsCountByUPC.get(upc);
+				// Increase count in the map
+				productsCountByUPC.put(upc, count);
+			} else {
+				productsCountByUPC.put(upc, 1);
+			}
+		}
+		
+		return productsCountByUPC;
 	}
 	
 	private boolean isCustomerOrder(Order o) {
