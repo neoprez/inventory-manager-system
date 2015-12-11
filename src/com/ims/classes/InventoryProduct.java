@@ -36,7 +36,16 @@ public class InventoryProduct extends Product {
 		this.dateLastUpdated = dateLastUpdated;
 	}
 	
-	public boolean isHasNotification() {
+	public InventoryProduct() {
+		super();
+		this.hasNotification = false;
+		this.supermarketID = 0;
+		this.count = 0;
+		this.dateAdded = null;
+		this.dateLastUpdated = null;
+	}
+	
+	public boolean hasNotification() {
 		return hasNotification;
 	}
 	public void setHasNotification(boolean hasNotification) {
