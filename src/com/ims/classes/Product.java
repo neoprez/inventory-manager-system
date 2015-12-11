@@ -12,31 +12,31 @@ public class Product implements Serializable{
 	private String upc;
 	private String name;
 	private double price;
-	private int categoryId;
-	private int manufacturerId;
-	private int distributorId;
+	private Category category;
+	private Manufacturer manufacturer;
+	private Distributor distributor;
 	private Date dateCreated;
 	private static DecimalFormat formatter = new DecimalFormat("$0.00");
 	
-	public Product(String upc, String name, double price, int categoryId, int distributorId, int manufacturerId, Date dateCreated){
+	public Product(String upc, String name, double price, Category category, Distributor distributor, Manufacturer manufacturer, Date dateCreated){
 		this.upc 			= upc;
 		this.name 			= name;
 		this.price 			= price;
-		this.categoryId 	= categoryId;
-		this.distributorId 	= distributorId;
-		this.manufacturerId	= manufacturerId;
+		this.category 		= category;
+		this.distributor 	= distributor;
+		this.manufacturer	= manufacturer;
 		this.dateCreated	= dateCreated;
 	}
-	public Product(String upc, String name, double price, int categoryId, int distributorId, int manufacturerId){
-		this(upc, name, price, categoryId, distributorId, manufacturerId, null);
+	public Product(String upc, String name, double price, Category category, Distributor distributor, Manufacturer manufacturer){
+		this(upc, name, price, category, distributor, manufacturer, null);
 	}
 	
-	public Product(String upc, String name, double price, int categoryId){
-		this(upc, name, price, categoryId, 0, 0, null);
+	public Product(String upc, String name, double price, Category category){
+		this(upc, name, price, category, null, null, null);
 	}
 	
 	public Product() {
-		this("", "", 0.0, 0, 0, 0);
+		this("", "", 0.0, null, null, null);
 	}
 
 	public String getUpc() {
@@ -63,41 +63,46 @@ public class Product implements Serializable{
 		this.price = price;
 	}
 
-	public int getCategoryId() {
-		return categoryId;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCategory(int categoryId) {
-		this.categoryId = categoryId;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 	
-	public int getManufacturerId() {
-		return manufacturerId;
+	public Manufacturer getManufacturer() {
+		return manufacturer;
 	}
 
-	public void setManufacturerId(int manufacturerId) {
-		this.manufacturerId = manufacturerId;
+	public void setManufacturer(Manufacturer manufacturer) {
+		this.manufacturer = manufacturer;
 	}
 
-	public int getDistributorId() {
-		return distributorId;
+	public Distributor getDistributor() {
+		return distributor;
 	}
 
-	public void setDistributorId(int distributorId) {
-		this.distributorId = distributorId;
+	public void setDistributor(Distributor distributor) {
+		this.distributor = distributor;
 	}
 	
 	public Date getDateCreated() {
 		return this.dateCreated;
 	}
 	
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
+
 	public String toString() {
-		return String.format("%1$-22s %2$-55s %3$5s", this.upc, this.name, formatter.format(this.price));
+		return String.format("upc: %1$-14s name: %2$-25s price: "
+				+ "%3$5s category: %4$10s "
+				+ "manufacturer: %5$10s "
+				+ "distributor: %6$10s", 
+				this.upc, this.name, formatter.format(this.price), 
+				this.category.getName(),
+				this.manufacturer.getName(),
+				this.distributor.getName());
 	}
 }
