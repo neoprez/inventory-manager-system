@@ -123,16 +123,53 @@ public class DBUtilities {
 		
 	}
 	
-	public void setNotificationForProduct() {
-		
+	public void setNotificationForProduct(int product_upc, int supermarket_id, int manager_id, int stock_threshold){
+			String sql= "update into products (upc, name, stock_price, count, category_id) values (?, ?, ?, ?)";
+			Connection con 	= this.getConnection();
+			
+			
+			try {
+			
+			PreparedStatement preparedStatement = con.prepareStatement(sql);
+			
+			preparedStatement.setInt(1, product_upc);
+			preparedStatement.setInt(2, supermarket_id);
+			preparedStatement.setInt(3, manager_id);
+			preparedStatement.setInt(4, stock_threshold );
+			preparedStatement.executeUpdate();
+			
+			
+			}
+			catch (Exception exc){
+				exc.printStackTrace();
+			}
+			
+			this.closeConnection(con);
 	}
 	
 	public void getUpdateFequencyForStore() {
 		
 	}
 	
-	public void removeNotificationForProduct() {
+	public void removeNotificationForProduct(int product_upc, int supermarket_id){
+			String sql= "update products set  notify = (?) where product_upc = (?) and supermarket_id = (?);";
+			Connection con 	= this.getConnection();
 		
+			try {
+			
+			PreparedStatement preparedStatement = con.prepareStatement(sql);
+			
+			preparedStatement.setBoolean(1, false);
+			preparedStatement.setInt(2, product_upc);
+			preparedStatement.setInt(3, supermarket_id);
+
+			preparedStatement.executeUpdate();
+			
+			
+			}
+			catch (Exception exc){
+				exc.printStackTrace();
+			}
 	}
 	
 	public void setThresholdForProduct() {
@@ -310,4 +347,8 @@ public class DBUtilities {
 		
 		return products;
 	}
+	
+	
+	
+	
 }
