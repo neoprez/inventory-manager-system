@@ -1,21 +1,21 @@
 package com.demo;
 
 import com.ims.classes.Cashier;
-import com.ims.classes.Order;
+import com.ims.classes.CustomerOrder;
 import com.ims.classes.Product;
 
 public class IMSDemo {
-	private Order[] orders;
+	private CustomerOrder[] orders;
 	private OrderSender os;
 	private Supermarket sm;
 	
 	public IMSDemo(int id, int n) {
-		orders = new Order[n];
+		orders = new CustomerOrder[n];
 		sm = new Supermarket(id);
 		os = new OrderSender();
 		fillArray(id, n);
 	}
-	
+
 	private void fillArray(int id, int n) {
 		/*
 		 * Employees
@@ -48,28 +48,26 @@ public class IMSDemo {
 			orders[i].setId(i+1);
 		}
 	}
-	
+
 	public void sendAllOrders() {
-		for(Order order : orders ) {
+		for(CustomerOrder order : orders ) {
 			os.sendOrder(order);
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		new Thread(){
 			public void run() {
-				IMSDemo cms1 = new IMSDemo(1,1000);
+				IMSDemo cms1 = new IMSDemo(1,99);
 				cms1.sendAllOrders();
 			}
 		}.start();
 		
 		new Thread() {
 			public void run() {
-				IMSDemo cms2 = new IMSDemo(67,200);
+				IMSDemo cms2 = new IMSDemo(2,20);
 				cms2.sendAllOrders();
 			}
-		}.start();
-		
-		
+		}.start();	
 	}
 }

@@ -48,6 +48,7 @@ public class OrderReceiver implements Runnable {
         	   System.out.print(COMPONENT_NAME);
         	   System.out.println(" - Incomming connection...");
         	   Order order = desearilizeStreamIntoOrder( connectionSocket.getInputStream() );
+        	   connectionSocket.close();
         	   sendOrderToProcessor(order);
 			} catch (IOException e) {
 				e.printStackTrace();
