@@ -1,6 +1,12 @@
 package com.ims.classes;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
+	/**
+	 * Necessary for object serialization 
+	 */
+	private static final long serialVersionUID = 5950169519310163575L;
 	private String name;
 	private int id;
 	

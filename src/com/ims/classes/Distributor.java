@@ -1,6 +1,12 @@
 package com.ims.classes;
 
-public class Distributor {
+import java.io.Serializable;
+
+public class Distributor implements Serializable {
+	/**
+	 * Necessary for object serialization 
+	 */
+	private static final long serialVersionUID = 5950169519310163575L;
 	private String name;
 	private int id;
 	
