@@ -150,20 +150,37 @@ public class DBUtilities {
 		return success;
 	}
 	
+	private void updateNotificationForProduct(String upc, int supermarketId, boolean value){
+		String query = "UPDATE supermarkets_stock SET has_notification=? WHERE product_upc=? AND supermarket_id=?";
+		Connection con = this.getConnection();
+		
+		try {
+			PreparedStatement st = con.prepareStatement(query);
+			st.setBoolean(1, value);
+			st.setString(2, upc);
+			st.setInt(3, supermarketId);
+			st.executeUpdate();
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			this.closeConnection(con);
+		}
+	}
+	
 	public void removeProductFromInventory() {
 		
 	}
 	
-	public void setNotificationForProduct() {
-		
+	public void setNotificationForProduct(String upc, int supermarketId) {
+		this.updateNotificationForProduct(upc, supermarketId, true);
 	}
 	
 	public void getUpdateFequencyForStore() {
 		
 	}
 	
-	public void removeNotificationForProduct() {
-		
+	public void removeNotificationForProduct(String upc, int supermarketId) {
+		this.updateNotificationForProduct(upc, supermarketId, false);
 	}
 	
 	public void setThresholdForProduct() {
@@ -412,6 +429,7 @@ public class DBUtilities {
 						stockResult.getBoolean("has_notification"),
 						stockResult.getInt("supermarket_id"),
 						stockResult.getInt("product_count"),
+						stockResult.getInt("threshold_count"),
 						new Date(stockResult.getLong("date_added")),
 						new Date(stockResult.getLong("date_last_updated"))
 						));

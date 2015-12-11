@@ -10,6 +10,7 @@ public class InventoryProduct extends Product {
 	private boolean hasNotification;
 	private int supermarketID;
 	private int count;
+	private int thresholdCount;
 	private Date dateAdded;
 	private Date dateLastUpdated;
 	
@@ -24,16 +25,18 @@ public class InventoryProduct extends Product {
 		this.count = 0;
 		this.dateAdded = null;
 		this.dateLastUpdated = null;
+		this.thresholdCount = 0;
 	}
 	
 	public InventoryProduct(Product p, boolean hasNotification, int supermarketID, 
-			int count, Date dateAdded, Date dateLastUpdated) {
+			int count, int thresholdCount, Date dateAdded, Date dateLastUpdated) {
 		this(p);
 		this.hasNotification = hasNotification;
 		this.supermarketID	= supermarketID;
 		this.count = count;
 		this.dateAdded = dateAdded;
 		this.dateLastUpdated = dateLastUpdated;
+		this.thresholdCount = thresholdCount;
 	}
 	
 	public InventoryProduct() {
@@ -43,6 +46,7 @@ public class InventoryProduct extends Product {
 		this.count = 0;
 		this.dateAdded = null;
 		this.dateLastUpdated = null;
+		this.thresholdCount = 0;
 	}
 	
 	public boolean hasNotification() {
@@ -75,6 +79,11 @@ public class InventoryProduct extends Product {
 	public void setDateLastUpdated(Date dateLastUpdated) {
 		this.dateLastUpdated = dateLastUpdated;
 	}
-	
+	public int getThresholdCount() {
+		return thresholdCount;
+	}
+	public void setThresholdCount(int thresholdCount) {
+		this.thresholdCount = thresholdCount;
+	}
 	
 }

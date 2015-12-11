@@ -20,10 +20,12 @@ public class DBUtilitiesDemo {
 		p.setSupermarketID(2);
 		p.setCount(470);
 		
-		if( db.addProductToInventory(p.getSupermarketID(), p) ) {
+		/*if( db.addProductToInventory(p.getSupermarketID(), p) ) {
 			System.out.println("Success");
 		} else {
 			System.out.println("Error");
-		}
+		}*/
+		//db.removeNotificationForProduct("384293829823", 1);
+		db.setNotificationForProduct("384293829823", 2);
 	}
 }
