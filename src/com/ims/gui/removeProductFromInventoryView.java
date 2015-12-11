@@ -24,6 +24,7 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 	JButton searchButton = new JButton("Search");
 	JButton removeButton = new JButton("Remove");
 	JButton cancelButton = new JButton("Cancel");
+	JButton resetButton = new JButton("Reset Field");
 	
 
 	JTextField searchTextField = new JTextField(20);
@@ -57,8 +58,7 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 	
 	
 		public void removeProduct(){
-		String searchWord = "";
-		searchWord = inventoryManagementSystemView.getSearchField(searchWord);
+		// Larry's code will be implemented
 		
 	}
 	
@@ -84,12 +84,20 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 		
 		buttonPanel.add(searchButton);
 		searchButton.setPreferredSize(new Dimension(400, 200));
+		searchButton.addActionListener(this);
 		
 		buttonPanel.add(removeButton);
 		removeButton.setPreferredSize(new Dimension(400, 200));
+		removeButton.addActionListener(this);
 		
 		buttonPanel.add(cancelButton);
 		cancelButton.setPreferredSize(new Dimension(400, 200));
+		cancelButton.addActionListener(this);
+		
+		
+		buttonPanel.add(resetButton);
+		resetButton.setPreferredSize(new Dimension(200, 400));
+		resetButton.addActionListener(this);
 		
 		buttonPanel.add(returnButton);
 		returnButton.setPreferredSize(new Dimension(400, 200));
@@ -103,6 +111,18 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 			if(e.getActionCommand()==("Return")){
 				super.dispose();
 				
+			}
+			else if(e.getActionCommand()==("Remove")){
+				removeProduct();
+			}
+			else if(e.getActionCommand()==("Cancel")){
+				
+			}
+			else if(e.getActionCommand()==("Search")){
+				// some search() method will go here
+			}
+			else if(e.getActionCommand()==("Reset")){ 
+				inventoryManagementSystemView.searchField.setText("");
 			}
 		}
 }

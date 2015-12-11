@@ -5,24 +5,28 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class resupplyNotificationView extends JFrame {
+public class resupplyNotificationView extends JFrame implements ActionListener {
 
 	
 	
 	JButton searchButton = new JButton("Search");
-	JButton addButton = new JButton("Add");
+	JButton acceptButton = new JButton("Accept");
 	JButton cancelButton = new JButton("Cancel");
+	JButton returnButton = new JButton("Return");
+	JButton resetButton = new JButton("Reset Field");
 	
-	//JButton returnButton = new JButton("Return to Previous Page");
 	JTextField searchTextField = new JTextField(20);
 	JTextArea productArea = new JTextArea();
 	JPanel buttonPanel = new JPanel();
@@ -48,39 +52,89 @@ public class resupplyNotificationView extends JFrame {
 		};
 	
 	
-	JTable table = new JTable(product, columnNames);
+	ProductsTableModel model = new ProductsTableModel(product, columnNames);
+	JTable table = new JTable(model);
+	
+	public void setNotification(){
+		 
+		/*   
+		if(model.selected = true){
+			int[] selection = table.getSelectedRows();
+			   for (int i = 0; i < selection.length; i++) {
+			     selection[i] = table.convertRowIndexToModel(selection[i]);
+			     JOptionPane.showInputDialog(table, "Assign a count threshold by indicating a numeric value in an input field next to each of these "
+			     		+ "products");
+			   }
+			   
+		}
+		else {
+			   JOptionPane.showMessageDialog(null, "You have not selected any products");
+		   } */
+	}
 	
 	
+	public void removeNotification(){
+		
+	}
+
 	
 	public resupplyNotificationView() {
 		
-		add(windowPanel);
-		windowPanel.add(buttonPanel);
-		windowPanel.add(tablePanel);
-		windowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		setSize(1280, 750);
-		//setLayout(new GridLayout());
+		setLayout(new BorderLayout());
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 		//add(returnButton, BorderLayout.SOUTH);
-		add(buttonPanel, BorderLayout.NORTH);
+		add(buttonPanel, BorderLayout.EAST);
 		buttonPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		buttonPanel.setLayout(new GridLayout(0,4));
+		buttonPanel.setLayout(new GridLayout(0,1));
 		
 		buttonPanel.add(searchButton);
 		searchButton.setPreferredSize(new Dimension(200, 150));
-		buttonPanel.add(searchTextField);
-		buttonPanel.add(addButton);
-		addButton.setPreferredSize(new Dimension(200, 150));
+		searchButton.addActionListener(this);
+		
+		buttonPanel.add(acceptButton);
+		acceptButton.setPreferredSize(new Dimension(200, 150));
+		acceptButton.addActionListener(this);
+		
 		buttonPanel.add(cancelButton);
 		cancelButton.setPreferredSize(new Dimension(200, 150));
+		cancelButton.addActionListener(this);
 		
+		buttonPanel.add(resetButton);
+		resetButton.setPreferredSize(new Dimension(400, 200));
+		resetButton.addActionListener(this);
 		
-		add(tablePanel, BorderLayout.CENTER);
+		buttonPanel.add(returnButton);
+		returnButton.setPreferredSize(new Dimension(200, 150));
+		returnButton.addActionListener(this);
+		
+		add(table, BorderLayout.CENTER);
 		table.setBorder(BorderFactory.createLineBorder(Color.black));
-		tablePanel.add(table);
-		table.setPreferredSize(new Dimension(1000, 1000));
+	
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getActionCommand()==("Accept")){
+			setNotification();
+		}
+
+		else if(e.getActionCommand()==("Cancel")){
+			
+		}
+		else if(e.getActionCommand()==("Search")){
+			// some search() method will go here
+		}
+		else if(e.getActionCommand()==("Return")){
+			super.dispose();
+		}
+		else if(e.getActionCommand()==("Reset")){ 
+			inventoryManagementSystemView.searchField.setText("");
+		}
 	}
 	
 }

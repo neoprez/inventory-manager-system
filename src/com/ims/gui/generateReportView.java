@@ -1,6 +1,4 @@
 package com.ims.gui;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
@@ -42,10 +40,13 @@ import java.awt.print.*;
  */
 
 public class generateReportView extends JFrame implements Printable, ActionListener {
-
+		JButton returnButton = new JButton("Return");
 		JButton printButton = new JButton("Print");
+		JButton resetButton = new JButton("Reset Field");
 		JTextField searchField = new JTextField();
-		
+		JPanel buttonPanel = new JPanel();
+
+		JLabel printLabel = new JLabel("Print Report");
 		
 		String[] columnNames = {"Name",
 	            "UPC",
@@ -74,8 +75,31 @@ public class generateReportView extends JFrame implements Printable, ActionListe
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		add(searchField, BorderLayout.NORTH);
-		add(printButton,BorderLayout.EAST);
+		
+		
+		add(buttonPanel, BorderLayout.EAST);
+		
+		buttonPanel.setLayout(new GridLayout(0,1));
+		
+		buttonPanel.add(printLabel);
+		printLabel.setBorder(BorderFactory.createEmptyBorder(0, 165, 0, 0));
+		
+		buttonPanel.add(printButton);
+		printButton.setPreferredSize(new Dimension(400, 200));
 		printButton.addActionListener(this);
+		
+		buttonPanel.add(resetButton);
+		resetButton.setPreferredSize(new Dimension(400, 200));
+		resetButton.addActionListener(this);
+		
+		buttonPanel.add(returnButton);
+		returnButton.setPreferredSize(new Dimension(400, 200));
+		returnButton.addActionListener(this);
+		
+		
+		
+		
+		
 	    add(table, BorderLayout.CENTER);
 		
 		}
@@ -103,17 +127,9 @@ public class generateReportView extends JFrame implements Printable, ActionListe
 	    }
 	 
 	    public void actionPerformed(ActionEvent e) {
-	         PrinterJob job = PrinterJob.getPrinterJob();
-	         job.setPrintable(this);
-	         boolean ok = job.printDialog();
-	         if (ok) {
-	             try {
-	                  job.print();
-	             } catch (PrinterException ex) {
-	              /* The job did not successfully complete */
-	             }
-	         }
 	         if(e.getActionCommand()==("Print")){
+	        	 PrinterJob job = PrinterJob.getPrinterJob();
+		         job.setPrintable(this);
 	        	 try {
 	        		    boolean complete = table.print();
 	        		    if (complete) {
@@ -135,6 +151,13 @@ public class generateReportView extends JFrame implements Printable, ActionListe
 	     	    });*/
 	     	   
 	         }
+	         else if(e.getActionCommand()==("Return")){
+					super.dispose();
+				}
+	         
+	         else if(e.getActionCommand()==("Reset")){ 
+	 			inventoryManagementSystemView.searchField.setText("");
+	 		}
 	        	 
 	    }
 	
