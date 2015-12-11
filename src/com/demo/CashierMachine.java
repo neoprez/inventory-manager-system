@@ -3,12 +3,13 @@ package com.demo;
 import java.util.Random;
 
 import com.ims.classes.Cashier;
+import com.ims.classes.CustomerOrder;
 import com.ims.classes.Order;
 import com.ims.classes.Product;
 
 public class CashierMachine {
 	private Cashier cashier;
-	private Order order;
+	private CustomerOrder order;
 	private Supermarket supermarket;
 	private int id;
 	
@@ -43,7 +44,7 @@ public class CashierMachine {
 	}
 	
 	public void startOrder() {
-		this.order = new Order(this.supermarket.getId(), this.cashier.getId());
+		this.order = new CustomerOrder(this.supermarket.getId(), this.cashier.getId());
 		this.order.setId(new Random().nextInt(100)+1);
 		System.out.print("CASHIER MACHINE #" + this.id);
 		System.out.println(" - started order #" + this.order.getId());
@@ -53,11 +54,11 @@ public class CashierMachine {
 		this.order.addProduct(p);
 	}
 	
-	public Order completeOrder() {
+	public CustomerOrder completeOrder() {
 		/*
 		 * Save to database then pay
 		 */
-		Order theOrder 	= this.order;
+		CustomerOrder theOrder 	= this.order;
 		System.out.print("CASHIER MACHINE #" + this.id);
 		System.out.println(" - order #" + this.order.getId() + " has been completed.");
 		this.order 		= null;
