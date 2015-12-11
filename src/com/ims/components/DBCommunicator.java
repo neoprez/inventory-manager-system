@@ -7,10 +7,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Set;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -134,8 +136,94 @@ public class DBCommunicator {
 		
 	}
 	
-	public void updateProductCount() {
+	/**
+	 * This function decreases the product count in stock for the supermarket.
+	 * 
+	 * If at least one of the products could not be updated it, it returns false.
+	 * 
+	 * @param storeID
+	 * @param upcs
+	 * @return
+	 */
+	public boolean decreaseProductCount(int supermarketId, HashMap<String, Integer> upcs) {
+		boolean success = false;
+		/*
+		 * Test if any products upcs.
+		 */
+		if( upcs.isEmpty() ) { 
+			success = false;
+		} else {
+			String query	= "UPDATE supermarkets_stock SET product_count" + 
+							"=product_count-? WHERE product_upc= ? and supermarket_id=?";
+			Connection con 	= this.getConnection();
+			
+			try {
+				Set<String> keys = upcs.keySet();
+				for(String upc : keys ) {
+					PreparedStatement statement = con.prepareStatement(query);
+					statement.setInt(1, upcs.get(upc));
+					statement.setString(2, upc);
+					statement.setInt(3, supermarketId);
+					success = statement.execute();					
+				}
+				
+				success = true;
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			this.closeConnection(con);
+		}
 		
+		
+
+		return success;
+	}
+	
+	/**
+	 * This function increases the product count in stock for the supermarket.
+	 * 
+	 * If at least one of the products could not be updated it, it returns false.
+	 * 
+	 * @param storeID
+	 * @param upcs
+	 * @return
+	 */
+	public boolean increaseProductCount(int supermarketId, HashMap<String, Integer> upcs) {
+		boolean success = false;
+		/*
+		 * Test if any products upcs.
+		 */
+		if( upcs.isEmpty() ) { 
+			success = false;
+		} else {
+			String query	= "UPDATE supermarkets_stock SET product_count" + 
+							"=product_count+? WHERE product_upc= ? and supermarket_id=?";
+			Connection con 	= this.getConnection();
+			
+			try {
+				Set<String> keys = upcs.keySet();
+				for(String upc : keys ) {
+					PreparedStatement statement = con.prepareStatement(query);
+					statement.setInt(1, upcs.get(upc));
+					statement.setString(2, upc);
+					statement.setInt(3, supermarketId);
+					success = statement.execute();					
+				}
+				
+				success = true;
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			this.closeConnection(con);
+		}
+		
+		
+
+		return success;
 	}
 	
 	/*
