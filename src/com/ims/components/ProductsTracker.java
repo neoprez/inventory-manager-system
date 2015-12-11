@@ -1,6 +1,6 @@
 package com.ims.components;
 
-public class InventoryTracker {
+public class ProductsTracker {
 	private Notifier 		notifier;
 	private OrderProcessor 	orderProcessor;
 	
