@@ -12,11 +12,11 @@ import com.ims.classes.ReturnOrder;
 
 public class OrderProcessor implements Runnable {
 	private Queue<Order> orders;
-	private DBCommunicator dbAPI;
+	private DBUtilities dbAPI;
 	
 	public OrderProcessor() {
 		orders 	= new LinkedList<Order>();
-		dbAPI	= new DBCommunicator();
+		dbAPI	= new DBUtilities();
 	}
 	
 	private void processOrders() {
@@ -63,7 +63,7 @@ public class OrderProcessor implements Runnable {
 	 * This function updates the product count on the database 
 	 * for the products in the order.
 	 * It determines the type order that has been passed and applies the necessary 
-	 * operation on the database. It communicates with the DBCommunicator;
+	 * operation on the database. It communicates with the DBUtilities;
 	 * 
 	 * @param Order order the order to be computed. 
 	 * @return true on success otherwise false. If the order is empty, it returns false.
