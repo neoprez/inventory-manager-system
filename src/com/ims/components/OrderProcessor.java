@@ -3,7 +3,10 @@ package com.ims.components;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.ims.classes.CustomerOrder;
+import com.ims.classes.ExchangeOrder;
 import com.ims.classes.Order;
+import com.ims.classes.ReturnOrder;
 
 public class OrderProcessor implements Runnable {
 	private Queue<Order> orders;
@@ -48,5 +51,17 @@ public class OrderProcessor implements Runnable {
 			orders.add(order);
 			orders.notifyAll();
 		}
+	}
+	
+	private boolean isCustomerOrder(Order o) {
+		return o instanceof CustomerOrder;
+	}
+	
+	private boolean isReturnOrder(Order o) {
+		return o instanceof ReturnOrder;
+	}
+	
+	private boolean isExchangeOrder(Order o) {
+		return o instanceof ExchangeOrder;
 	}
 }
