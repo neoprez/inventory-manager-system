@@ -91,6 +91,12 @@ public class Product implements Serializable{
 		return this.dateCreated;
 	}
 	
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
 	public String toString() {
 		return String.format("%1$-22s %2$-55s %3$5s", this.upc, this.name, formatter.format(this.price));
 	}
