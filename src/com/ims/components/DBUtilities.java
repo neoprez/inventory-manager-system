@@ -20,7 +20,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.ims.classes.Category;
+import com.ims.classes.Distributor;
 import com.ims.classes.InventoryProduct;
+import com.ims.classes.Manufacturer;
 import com.ims.classes.Product;
 
 public class DBUtilities {
@@ -229,6 +232,90 @@ public class DBUtilities {
 		return success;
 	}
 	
+	/**
+	 * Gets the category given its categoryId
+	 * @param categoryId
+	 * @return Returns a Category. 
+	 */
+	public Category getCategoryById(int categoryId) {
+		String query 	= "SELECT * FROM categories WHERE id=?";
+		Category category = new Category();
+		Connection con = this.getConnection();
+		
+		try {
+			PreparedStatement st = con.prepareStatement(query);
+			st.setInt(1, categoryId);
+			ResultSet result = st.executeQuery();
+			
+			if( result.next() ) {
+				category.setId(result.getInt("id"));
+				category.setName(result.getString("name"));
+			}
+		} catch(SQLException ex ){
+			ex.printStackTrace();
+		} finally {
+			this.closeConnection(con);			
+		}
+
+		return category;
+	}
+	
+	/**
+	 * Gets the Distributor given its distributorId
+	 * @param distributorId
+	 * @return Returns a Distributor. 
+	 */
+	public Distributor getDistributorById(int distributorId) {
+		String query 	= "SELECT * FROM distributors WHERE id=?";
+		Distributor distributor = new Distributor();
+		Connection con = this.getConnection();
+		
+		try {
+			PreparedStatement st = con.prepareStatement(query);
+			st.setInt(1, distributorId);
+			ResultSet result = st.executeQuery();
+			
+			if( result.next() ) {
+				distributor.setId(result.getInt("id"));
+				distributor.setName(result.getString("name"));
+			}
+		} catch(SQLException ex ){
+			ex.printStackTrace();
+		} finally {
+			this.closeConnection(con);			
+		}
+		
+		return distributor;
+	}
+	
+	/**
+	 * Gets the Manufacturer given its manufacturerId
+	 * @param manufacturerId
+	 * @return Returns a Manufacturer. 
+	 */
+	public Manufacturer getManufacturerById(int manufacturerId) {
+		String query 	= "SELECT * FROM manufacturers WHERE id=?";
+		Manufacturer manufacturer = new Manufacturer();
+		Connection con = this.getConnection();
+		
+		try {
+			PreparedStatement st = con.prepareStatement(query);
+			st.setInt(1, manufacturerId);
+			ResultSet result = st.executeQuery();
+			
+			if( result.next() ) {
+				manufacturer.setId(result.getInt("id"));
+				manufacturer.setName(result.getString("name"));
+			}
+		} catch(SQLException ex ){
+			ex.printStackTrace();
+		} finally {
+			this.closeConnection(con);			
+		}
+		
+		return manufacturer;
+	}
+	
 	/*
 	 * This function returns a product from the database given its upc.
 	 * 
@@ -248,9 +335,9 @@ public class DBUtilities {
 							rs.getString("upc"),
 							rs.getString("name"),
 							rs.getDouble("price"),
-							rs.getInt("category_id"),
-							rs.getInt("distributor_id"),
-							rs.getInt("manufacturer_id"),
+							getCategoryById(rs.getInt("category_id")),
+							getDistributorById(rs.getInt("distributor_id")),
+							getManufacturerById(rs.getInt("manufacturer_id")),
 							new Date(rs.getLong("date_created"))
 						);
 			}
