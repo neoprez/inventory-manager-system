@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -18,6 +20,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.ims.classes.InventoryProduct;
 import com.ims.classes.Product;
 
 public class DBUtilities {
@@ -248,7 +251,7 @@ public class DBUtilities {
 							rs.getInt("category_id"),
 							rs.getInt("distributor_id"),
 							rs.getInt("manufacturer_id"),
-							rs.getDate("date_created")
+							new Date(rs.getLong("date_created"))
 						);
 			}
 
@@ -265,15 +268,46 @@ public class DBUtilities {
 		
 	}
 	
-	public void getProductByBrand() {
+	/**
+	 * This function returns all the products in inventory for the supermarket.
+	 * It selects all the upc from the supermarkets_stock table for which the 
+	 * supermarket_id = supermarketId.
+	 * 
+	 * If the supermarkets has any products in his inventory the an ArrayList of
+	 * InventoryProduct is returned otherwise an empty list.
+	 * 
+	 * @param supermarketId The id of the supermarket
+	 * @return ArrayList<InventoryProduct> if no products are found or the supermarket doesn't exists
+	 * this list is empty.
+	 */
+	public ArrayList<InventoryProduct> getProductsOnInventoryForSupermarket(int supermarketId) {
+		String stockQuery = "SELECT * FROM supermarkets_stock WHERE supermarket_id=?";
+		ArrayList<InventoryProduct> products = new ArrayList<InventoryProduct>();
 		
-	}
-	
-	public void getProductsBy() {
+		Connection con = this.getConnection();
+		try{
+			PreparedStatement stockStatement 	= con.prepareStatement(stockQuery);
+			stockStatement.setInt(1, supermarketId);
+			
+			ResultSet stockResult  				= stockStatement.executeQuery();
+
+			while(stockResult.next()) {
+				Product p = getProductByUPC( stockResult.getString("product_upc") );
+				products.add(new InventoryProduct(p, 
+						stockResult.getBoolean("has_notification"),
+						stockResult.getInt("supermarket_id"),
+						stockResult.getInt("product_count"),
+						new Date(stockResult.getLong("date_added")),
+						new Date(stockResult.getLong("date_last_updated"))
+						));
+			}
+			
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			this.closeConnection(con);
+		}
 		
-	}
-	
-	public void getProductsOnInventoryForStore() {
-		
+		return products;
 	}
 }
