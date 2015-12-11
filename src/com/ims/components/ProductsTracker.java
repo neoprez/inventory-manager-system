@@ -1,7 +1,7 @@
 package com.ims.components;
 
 public class ProductsTracker {
-	private Notifier 		notifier;
+	private Notification	notifier;
 	private OrderProcessor 	orderProcessor;
 	
 	public void start() {
