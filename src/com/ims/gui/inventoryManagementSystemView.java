@@ -16,6 +16,7 @@ public class inventoryManagementSystemView extends JPanel{
 	
 	static JTextField searchField = new JTextField();
 	JScrollPane scrollPane = new JScrollPane();
+	DBUtilities db = new DBUtilities();
 	
 	
 	public static String getSearchField(String searchWord){
@@ -45,12 +46,21 @@ public class inventoryManagementSystemView extends JPanel{
 	
 	JTable table;// = new JTable( new ProductsTableModel(product, columnNames) );
 	
-	
+
 	
 	public inventoryManagementSystemView(){
-		DBUtilities db = new DBUtilities();
-		for(int i = 0; i < 6; i++){
-		ArrayList<InventoryProduct> products = db.getProductsOnInventoryForSupermarket(1);
+		getProductsForTable(1);
+		table = new JTable( new ProductsTableModel(product, columnNames) );
+		setBackground(Color.LIGHT_GRAY);
+		setLayout(new BorderLayout(5,10));
+		add(searchField, BorderLayout.NORTH);
+		//add(table, BorderLayout.CENTER);
+		JScrollPane scrollPane = new JScrollPane(table);
+		add(scrollPane,  BorderLayout.CENTER);
+	}
+	
+	public void getProductsForTable(int supermarketId) {
+		ArrayList<InventoryProduct> products = db.getProductsOnInventoryForSupermarket(supermarketId);
 		
 		product = new Object[products.size()][6];
 		
@@ -65,14 +75,5 @@ public class inventoryManagementSystemView extends JPanel{
 			product[row][5] = p.getCount();
 			row++;	
 		}
-		}
-		table = new JTable( new ProductsTableModel(product, columnNames) );
-		setBackground(Color.LIGHT_GRAY);
-		setLayout(new BorderLayout(5,10));
-		add(searchField, BorderLayout.NORTH);
-		add(table, BorderLayout.CENTER);
-		JScrollPane scrollPane = new JScrollPane(table);
-		add(scrollPane);
 	}
-
 }
