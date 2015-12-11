@@ -5,6 +5,7 @@ import javax.swing.table.AbstractTableModel;
 public class ProductsTableModel extends AbstractTableModel {
 	private String[] columnNames;	
 	private Object[][] products;
+	boolean selected = false;
 	
 	
 	public ProductsTableModel(Object[][] products, String[] columnNames){
@@ -23,12 +24,14 @@ public class ProductsTableModel extends AbstractTableModel {
 	@Override
 	public void setValueAt(Object inValue, int inRow, int inCol){
 		if(inCol==5){
+			selected = true;
 			products[inRow][inCol] = (Boolean)inValue;
 			
-		}
+			}
 		
 	}
 
+	
 	@Override
 	public int getRowCount() {
 		return products.length;

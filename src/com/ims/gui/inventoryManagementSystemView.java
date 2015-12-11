@@ -14,20 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class inventoryManagementSystemView extends JPanel implements ActionListener {
-
-	String newName = "";
-	int newBarcode = 0;
-	int newPrice = 0;
-	String newManufacturer = "";
-	String newDistributor = "";
-	String newCategory = "";
+public class inventoryManagementSystemView extends JPanel{
 	
-	JLabel IMSLabel = new JLabel("Inventory Management System");
-	JLabel productInfoLabel = new JLabel("Product Information");
-	JLabel searchLabel = new JLabel("Search:");
+	
 	static JTextField searchField = new JTextField();
-	
 	
 	public static String getSearchField(String searchWord){
 		
@@ -56,47 +46,15 @@ public class inventoryManagementSystemView extends JPanel implements ActionListe
 	
 	JTable table = new JTable( new ProductsTableModel(product, columnNames) );
 	
-	JButton setResupplyNotification = new JButton("Set Resupply Notification");
-	JButton resetButton = new JButton("Reset");
+	
 	
 	public inventoryManagementSystemView(){
 		
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(new BorderLayout(5,10));
-
 		add(searchField, BorderLayout.NORTH);
 		add(table, BorderLayout.CENTER);
-		//add(setResupplyNotification);
-		setResupplyNotification.addActionListener(this);
-		//add(resetButton);
-		resetButton.addActionListener(this);
-	}
-
-
-	@Override
-	
-	// When the user clicks the "Resupply button, the system shall confirm with the user and then take the user to another screen (applet)	
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if(e.getActionCommand()==("Set Resupply Notification")){
-			int answer = JOptionPane.showConfirmDialog(null,
-					"Would you like to set an alert to be notified if you need to restock your inventory?",
-					"Title",
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.ERROR_MESSAGE);
-				if(answer == 0){
-					resupplyNotificationView frame = new resupplyNotificationView();// you can have your own parameters of course	
-					frame.setVisible(true);
-				}
-				else{
-					JOptionPane.showMessageDialog(null, "You have cancelled the notification");
 		
-				}
-			
-		}
-		// action to clear all the textfields
-		else if(e.getActionCommand()==("Reset")){ 
-			searchField.setText("");
-		}
 	}
+
 }
