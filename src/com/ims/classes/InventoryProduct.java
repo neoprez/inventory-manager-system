@@ -14,8 +14,16 @@ public class InventoryProduct extends Product {
 	private Date dateLastUpdated;
 	
 	public InventoryProduct(Product p) {
-		super(p.getUpc(), p.getName(), p.getPrice(), p.getCategoryId(),
-			  p.getDistributorId(), p.getManufacturerId(), p.getDateCreated());
+		/*
+		 * Does a shallow copy of the product. Whats important are the attributes
+		 */
+		super(p.getUpc(), p.getName(), p.getPrice(), p.getCategory(),
+			  p.getDistributor(), p.getManufacturer(), p.getDateCreated());
+		this.hasNotification = false;
+		this.supermarketID	= 0;
+		this.count = 0;
+		this.dateAdded = null;
+		this.dateLastUpdated = null;
 	}
 	
 	public InventoryProduct(Product p, boolean hasNotification, int supermarketID, 

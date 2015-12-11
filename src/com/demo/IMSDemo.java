@@ -1,6 +1,7 @@
 package com.demo;
 
 import com.ims.classes.Cashier;
+import com.ims.classes.Category;
 import com.ims.classes.CustomerOrder;
 import com.ims.classes.Product;
 
@@ -39,11 +40,11 @@ public class IMSDemo {
 		 */
 		for(int i = 0; i < n; i++) {
 			cms.startOrder();
-			cms.addProduct(new Product("123456789012", "Banana", 0.99, 1));
-			cms.addProduct(new Product("123498789012", "Apple", 1.00, 1));
-			cms.addProduct(new Product("984023582395", "Cheese", 2.99, 2));
-			cms.addProduct(new Product("123840320458", "Guacamole", 5.99,1));
-			cms.addProduct(new Product("785325623552", "Bacon", 0.99,6));
+			cms.addProduct(new Product("123456789012", "Banana", 0.99, new Category(1, "Fruits")));
+			cms.addProduct(new Product("123498789012", "Apple", 1.00, new Category(1, "Fruits")));
+			cms.addProduct(new Product("984023582395", "Cheese", 2.99, new Category(2, "Dairy")));
+			cms.addProduct(new Product("123840320458", "Guacamole", 5.99,new Category(1, "Fruits")));
+			cms.addProduct(new Product("785325623552", "Bacon", 0.99,new Category(2, "Meat")));
 			orders[i] = cms.completeOrder();
 			orders[i].setId(i+1);
 		}

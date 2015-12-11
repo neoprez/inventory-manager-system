@@ -4,8 +4,7 @@ USE inventory_manager;
 
 CREATE TABLE categories (
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	name VARCHAR(255),
-	date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	name VARCHAR(255)
 );
 
 CREATE TABLE products (
@@ -51,6 +50,15 @@ CREATE TABLE supermarkets_stock (
 	date_last_updated DATETIME
 );
 
+CREATE TABLE manufacturers (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(255)
+);
+
+CREATE TABLE distributors (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(255)
+);
 /*CREATE TABLE orders (
 	id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	store_id BIGINT(20),
