@@ -118,8 +118,36 @@ public class DBUtilities {
 		}
 	}
 	
-	public void addProductToInventory() {
+	/**
+	 * This function adds a product to the supermarket inventory.
+	 * @param supermarketId
+	 * @param p
+	 * @return
+	 */
+	public boolean addProductToInventory(int supermarketId, InventoryProduct p) {
+		boolean success = false;
+		Connection con = this.getConnection();
 		
+		try {
+			String query = "INSERT INTO supermarkets_stock (product_upc, "
+					+ "supermarket_id, product_count, has_notification, "
+					+ "date_last_updated) VALUES (?,?,?,?,?)";
+			
+			PreparedStatement st = con.prepareStatement(query);
+			st.setString(1, p.getUpc());
+			st.setInt(2, p.getSupermarketID());
+			st.setInt(3, p.getCount());
+			st.setBoolean(4, p.hasNotification());
+			java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+			st.setDate(5, date);
+			success = !st.execute();
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			this.closeConnection(con);
+		}
+		
+		return success;
 	}
 	
 	public void removeProductFromInventory() {
