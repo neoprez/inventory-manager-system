@@ -7,14 +7,14 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ims.components.DBCommunicator;
+import com.ims.components.DBUltilities;
 
 public class DBCommunicatorTest {
-	private DBCommunicator dbAPI;
+	private DBUltilities dbAPI;
 	
 	@Before
 	public void setUp() {
-		dbAPI = new DBCommunicator();
+		dbAPI = new DBUltilities();
 		System.out.println("@Before - setUp");
 	}
 	

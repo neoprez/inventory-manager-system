@@ -20,7 +20,7 @@ import org.json.simple.parser.ParseException;
 
 import com.ims.classes.Product;
 
-public class DBCommunicator {
+public class DBUltilities {
 	private static final String CONNECTOR = "jdbc:mysql://";
 	private static final String DBNAME = "inventory_manager"; // This is and shall be the only db
 	private static String HOST;
@@ -90,11 +90,11 @@ public class DBCommunicator {
 	private Connection getConnection() {
 		Connection con = null;
 		
-		String url = DBCommunicator.CONNECTOR + DBCommunicator.HOST + ":" + 
-				DBCommunicator.PORT + "/" + DBCommunicator.DBNAME;
+		String url = DBUltilities.CONNECTOR + DBUltilities.HOST + ":" + 
+				DBUltilities.PORT + "/" + DBUltilities.DBNAME;
 		
 		try {
-			con = DriverManager.getConnection(url, DBCommunicator.USER, DBCommunicator.PASSWORD);
+			con = DriverManager.getConnection(url, DBUltilities.USER, DBUltilities.PASSWORD);
 		}catch(SQLException ex) {
 			System.out.println(ex.getMessage());
 		}

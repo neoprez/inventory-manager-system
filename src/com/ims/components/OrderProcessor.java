@@ -12,11 +12,11 @@ import com.ims.classes.ReturnOrder;
 
 public class OrderProcessor implements Runnable {
 	private Queue<Order> orders;
-	private DBCommunicator dbAPI;
+	private DBUltilities dbAPI;
 	
 	public OrderProcessor() {
 		orders 	= new LinkedList<Order>();
-		dbAPI	= new DBCommunicator();
+		dbAPI	= new DBUltilities();
 	}
 	
 	private void processOrders() {
