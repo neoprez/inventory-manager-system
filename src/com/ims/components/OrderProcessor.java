@@ -26,6 +26,8 @@ public class OrderProcessor implements Runnable {
 					//update the inventory for the store in the order
 					Order order = this.orders.poll();
 					System.out.println("Processing Order #" + order.getId() + " from supermarket #" + order.getSupermarketId());
+					updateProductCountOnDatabase(order);
+					orders.notifyAll();
 				} else {
 					// wait 5 secs for the orders Queue to have something
 					try {
@@ -44,7 +46,7 @@ public class OrderProcessor implements Runnable {
 	}
 	
 	/*
-	 * Returns true is any orders in the que
+	 * Returns true is any orders in the queue
 	 */
 	private boolean anyOrders() {
 		return orders.isEmpty() == false;
@@ -57,6 +59,35 @@ public class OrderProcessor implements Runnable {
 		}
 	}
 	
+	/**
+	 * This function updates the product count on the database 
+	 * for the products in the order.
+	 * It determines the type order that has been passed and applies the necessary 
+	 * operation on the database. It communicates with the DBCommunicator;
+	 * 
+	 * @param Order order the order to be computed. 
+	 * @return true on success otherwise false. If the order is empty, it returns false.
+	 */
+	private boolean updateProductCountOnDatabase(Order order) {
+		/*
+		 * To warranty that the order has any products before updating.
+		 */
+		if( !order.hasProducts() ) {
+			return false;
+		}
+		
+		boolean success = false;
+		HashMap<String, Integer> productsCountByUPC = computeCountForProductsInOrder(order);
+		
+		if( isCustomerOrder(order) ) {
+			success = dbAPI.decreaseProductCount( order.getSupermarketId(), productsCountByUPC );
+		} else if ( isReturnOrder(order) ) {
+			
+		} else if( isExchangeOrder(order) ){
+			
+		}
+		return success;
+	}
 	
 	private HashMap<String, Integer> computeCountForProductsInOrder(Order order) {
 		HashMap<String, Integer> productsCountByUPC = new HashMap<String, Integer>();
