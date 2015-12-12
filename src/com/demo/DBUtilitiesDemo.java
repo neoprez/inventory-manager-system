@@ -34,5 +34,7 @@ public class DBUtilitiesDemo {
 		}*/
 		
 		db.removeProductFromInventory(1, "1000000033");
+		//db.removeNotificationForProduct("384293829823", 1);
+		//db.setNotificationForProduct("384293829823", 2);
 	}
 }

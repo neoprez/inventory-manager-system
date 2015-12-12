@@ -150,8 +150,7 @@ public class DBUtilities {
 		return success;
 	}
 
-	public boolean removeProductFromInventory(int supermarketId, String productUpc) {
-		boolean success = false;
+	public void removeProductFromInventory(int supermarketId, String productUpc) {
 		Connection con = this.getConnection();
 
 
@@ -160,30 +159,42 @@ public class DBUtilities {
 					+ "WHERE product_upc=? and supermarket_id=?";
 		
 
-		PreparedStatement st = con.prepareStatement(query);
-		st.setString(1, productUpc);
-		st.setInt(2, supermarketId);
-		success = !st.execute();
+			PreparedStatement st = con.prepareStatement(query);
+			st.setString(1, productUpc);
+			st.setInt(2, supermarketId);
+			st.execute();
+		} catch(SQLException ex) {
+			ex.printStackTrace();
 		}
-		catch(SQLException ex) {
+	}
+	
+	private void updateNotificationForProduct(String upc, int supermarketId, boolean value){
+		String query = "UPDATE supermarkets_stock SET has_notification=? WHERE product_upc=? AND supermarket_id=?";
+		Connection con = this.getConnection();
+		
+		try {
+			PreparedStatement st = con.prepareStatement(query);
+			st.setBoolean(1, value);
+			st.setString(2, upc);
+			st.setInt(3, supermarketId);
+			st.executeUpdate();
+		} catch(SQLException ex) {
 			ex.printStackTrace();
 		} finally {
 			this.closeConnection(con);
 		}
-
-		return success;
 	}
-
-	public void setNotificationForProduct() {
-
+	
+	public void setNotificationForProduct(String upc, int supermarketId) {
+		this.updateNotificationForProduct(upc, supermarketId, true);
 	}
-
+	
 	public void getUpdateFequencyForStore() {
 
 	}
 
-	public void removeNotificationForProduct() {
-
+	public void removeNotificationForProduct(String upc, int supermarketId) {
+		this.updateNotificationForProduct(upc, supermarketId, false);
 	}
 
 	public void setThresholdForProduct() {
@@ -432,6 +443,7 @@ public class DBUtilities {
 						stockResult.getBoolean("has_notification"),
 						stockResult.getInt("supermarket_id"),
 						stockResult.getInt("product_count"),
+						stockResult.getInt("threshold_count"),
 						new Date(stockResult.getLong("date_added")),
 						new Date(stockResult.getLong("date_last_updated"))
 						));

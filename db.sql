@@ -46,6 +46,7 @@ CREATE TABLE supermarkets_stock (
 	supermarket_id INT,
 	product_count INT(10),
 	has_notification BOOLEAN,
+	threshold_count INT,
 	date_added TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	date_last_updated DATETIME
 );
