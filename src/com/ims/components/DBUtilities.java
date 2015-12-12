@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -198,8 +200,21 @@ public class DBUtilities {
 		this.updateNotificationForProduct(upc, supermarketId, false);
 	}
 
-	public void setThresholdForProduct() {
-
+	public void setThresholdForProduct(String upc, int supermarketId, int thresholdCount) {
+		String query = "UPDATE supermarkets_stock SET threshold_count=? WHERE product_upc=? AND supermarket_id=?";
+		Connection con = this.getConnection();
+		
+		try {
+			PreparedStatement st = con.prepareStatement(query);
+			st.setInt(1, thresholdCount);
+			st.setString(2, upc);
+			st.setInt(3, supermarketId);
+			st.executeUpdate();
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			this.closeConnection(con);
+		}
 	}
 
 	/**
@@ -286,8 +301,6 @@ public class DBUtilities {
 
 			this.closeConnection(con);
 		}
-
-
 
 		return success;
 	}
