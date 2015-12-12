@@ -19,6 +19,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.ims.components.DBUtilities;
+
 public class addProductToInventoryView extends JFrame implements ActionListener {
 
 	JButton returnButton = new JButton("Return");
@@ -34,6 +36,8 @@ public class addProductToInventoryView extends JFrame implements ActionListener 
 
 	JLabel addLabel = new JLabel("Add");
 
+	
+	DBUtilities db = new DBUtilities();
 
 	String[] columnNames = {"Name",
 			"UPC",
@@ -55,15 +59,7 @@ public class addProductToInventoryView extends JFrame implements ActionListener 
 
 	ProductsTableModel model = new ProductsTableModel(product, columnNames);
 	JTable table = new JTable(model);
-
-
-
-	public void addProduct(){
-		String searchWord = "";
-		searchWord = inventoryManagementSystemView.getSearchField(searchWord);
-
-	}
-
+	
 
 	public addProductToInventoryView(){
 
@@ -108,7 +104,16 @@ public class addProductToInventoryView extends JFrame implements ActionListener 
 		// TODO Auto-generated method stub
 		if(e.getActionCommand()==("Return")){
 			super.dispose();
-
+			
+		}
+		else if(e.getActionCommand()==("Add")){
+			db.addProductToInventory(1, null);
+		}
+		else if(e.getActionCommand()==("Cancel")){
+			
+		}
+		else if(e.getActionCommand()==("Search")){
+			// some search() method will go here
 		}
 		else if(e.getActionCommand()==("Reset")){ 
 			inventoryManagementSystemView.searchField.setText("");

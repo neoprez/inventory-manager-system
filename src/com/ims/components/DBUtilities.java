@@ -33,7 +33,7 @@ public class DBUtilities {
 	private static String PORT;
 	private static String USER;
 	private static String PASSWORD;
-	
+
 	/*
 	 * Initialization block needed to get the information for
 	 * connecting to the database.
@@ -50,23 +50,23 @@ public class DBUtilities {
 	static {
 		FileReader fr = null; 
 		BufferedReader br = null;
-		
+
 		try {
 			fr = new FileReader(new File("dbconfig.json"));
 			br = new BufferedReader(fr);
 
 			String jsonString = br.readLine();
-			
+
 			try {
 				JSONParser jp 	= new JSONParser();
 				Object obj 		= jp.parse(jsonString);
-				
+
 				JSONObject jo 	= (JSONObject)obj;
 				HOST 			= (String)jo.get("host");
 				USER 			= (String)jo.get("user");
 				PORT 			= (String)jo.get("port");
 				PASSWORD 		= (String)jo.get("password");
-				
+
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -79,35 +79,35 @@ public class DBUtilities {
 				if(fr != null ){
 					fr.close();
 				}	
-				
+
 				if(br != null) {
 					br.close();
 				}
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
-	
+
 	/*
 	 * Gets a connection to the database
 	 */
 	private Connection getConnection() {
 		Connection con = null;
-		
+
 		String url = DBUtilities.CONNECTOR + DBUtilities.HOST + ":" + 
 				DBUtilities.PORT + "/" + DBUtilities.DBNAME;
-		
+
 		try {
 			con = DriverManager.getConnection(url, DBUtilities.USER, DBUtilities.PASSWORD);
 		}catch(SQLException ex) {
 			System.out.println(ex.getMessage());
 		}
-	
+
 		return con;
 	}
-	
+
 	private void closeConnection(Connection con) {
 		try {
 			if( con != null) {
@@ -117,7 +117,7 @@ public class DBUtilities {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * This function adds a product to the supermarket inventory.
 	 * @param supermarketId
@@ -127,12 +127,12 @@ public class DBUtilities {
 	public boolean addProductToInventory(int supermarketId, InventoryProduct p) {
 		boolean success = false;
 		Connection con = this.getConnection();
-		
+
 		try {
 			String query = "INSERT INTO supermarkets_stock (product_upc, "
 					+ "supermarket_id, product_count, has_notification, "
 					+ "date_last_updated) VALUES (?,?,?,?,?)";
-			
+
 			PreparedStatement st = con.prepareStatement(query);
 			st.setString(1, p.getUpc());
 			st.setInt(2, p.getSupermarketID());
@@ -146,30 +146,50 @@ public class DBUtilities {
 		} finally {
 			this.closeConnection(con);
 		}
-		
+
 		return success;
 	}
-	
-	public void removeProductFromInventory() {
+
+	public boolean removeProductFromInventory(int supermarketId, String productUpc) {
+		boolean success = false;
+		Connection con = this.getConnection();
+
+
+		try{
+			String query = "DELETE FROM supermarkets_stock "
+					+ "WHERE product_upc=? and supermarket_id=?";
 		
+
+		PreparedStatement st = con.prepareStatement(query);
+		st.setString(1, productUpc);
+		st.setInt(2, supermarketId);
+		success = !st.execute();
+		}
+		catch(SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			this.closeConnection(con);
+		}
+
+		return success;
 	}
-	
+
 	public void setNotificationForProduct() {
-		
+
 	}
-	
+
 	public void getUpdateFequencyForStore() {
-		
+
 	}
-	
+
 	public void removeNotificationForProduct() {
-		
+
 	}
-	
+
 	public void setThresholdForProduct() {
-		
+
 	}
-	
+
 	/**
 	 * This function decreases the product count in stock for the supermarket.
 	 * 
@@ -188,9 +208,9 @@ public class DBUtilities {
 			success = false;
 		} else {
 			String query	= "UPDATE supermarkets_stock SET product_count" + 
-							"=product_count-? WHERE product_upc= ? and supermarket_id=?";
+					"=product_count-? WHERE product_upc= ? and supermarket_id=?";
 			Connection con 	= this.getConnection();
-			
+
 			try {
 				Set<String> keys = upcs.keySet();
 				for(String upc : keys ) {
@@ -200,21 +220,21 @@ public class DBUtilities {
 					statement.setInt(3, supermarketId);
 					success = statement.execute();					
 				}
-				
+
 				success = true;
-				
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 			this.closeConnection(con);
 		}
-		
-		
+
+
 
 		return success;
 	}
-	
+
 	/**
 	 * This function increases the product count in stock for the supermarket.
 	 * 
@@ -233,9 +253,9 @@ public class DBUtilities {
 			success = false;
 		} else {
 			String query	= "UPDATE supermarkets_stock SET product_count" + 
-							"=product_count+? WHERE product_upc= ? and supermarket_id=?";
+					"=product_count+? WHERE product_upc= ? and supermarket_id=?";
 			Connection con 	= this.getConnection();
-			
+
 			try {
 				Set<String> keys = upcs.keySet();
 				for(String upc : keys ) {
@@ -245,21 +265,21 @@ public class DBUtilities {
 					statement.setInt(3, supermarketId);
 					success = statement.execute();					
 				}
-				
+
 				success = true;
-				
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 			this.closeConnection(con);
 		}
-		
-		
+
+
 
 		return success;
 	}
-	
+
 	/**
 	 * Gets the category given its categoryId
 	 * @param categoryId
@@ -269,12 +289,12 @@ public class DBUtilities {
 		String query 	= "SELECT * FROM categories WHERE id=?";
 		Category category = new Category();
 		Connection con = this.getConnection();
-		
+
 		try {
 			PreparedStatement st = con.prepareStatement(query);
 			st.setInt(1, categoryId);
 			ResultSet result = st.executeQuery();
-			
+
 			if( result.next() ) {
 				category.setId(result.getInt("id"));
 				category.setName(result.getString("name"));
@@ -287,7 +307,7 @@ public class DBUtilities {
 
 		return category;
 	}
-	
+
 	/**
 	 * Gets the Distributor given its distributorId
 	 * @param distributorId
@@ -297,12 +317,12 @@ public class DBUtilities {
 		String query 	= "SELECT * FROM distributors WHERE id=?";
 		Distributor distributor = new Distributor();
 		Connection con = this.getConnection();
-		
+
 		try {
 			PreparedStatement st = con.prepareStatement(query);
 			st.setInt(1, distributorId);
 			ResultSet result = st.executeQuery();
-			
+
 			if( result.next() ) {
 				distributor.setId(result.getInt("id"));
 				distributor.setName(result.getString("name"));
@@ -312,10 +332,10 @@ public class DBUtilities {
 		} finally {
 			this.closeConnection(con);			
 		}
-		
+
 		return distributor;
 	}
-	
+
 	/**
 	 * Gets the Manufacturer given its manufacturerId
 	 * @param manufacturerId
@@ -325,12 +345,12 @@ public class DBUtilities {
 		String query 	= "SELECT * FROM manufacturers WHERE id=?";
 		Manufacturer manufacturer = new Manufacturer();
 		Connection con = this.getConnection();
-		
+
 		try {
 			PreparedStatement st = con.prepareStatement(query);
 			st.setInt(1, manufacturerId);
 			ResultSet result = st.executeQuery();
-			
+
 			if( result.next() ) {
 				manufacturer.setId(result.getInt("id"));
 				manufacturer.setName(result.getString("name"));
@@ -340,10 +360,10 @@ public class DBUtilities {
 		} finally {
 			this.closeConnection(con);			
 		}
-		
+
 		return manufacturer;
 	}
-	
+
 	/*
 	 * This function returns a product from the database given its upc.
 	 * 
@@ -353,20 +373,20 @@ public class DBUtilities {
 		String query 	= "SELECT * FROM products WHERE upc='" + upc + "'";
 		Connection con 	= this.getConnection();
 		Product p		= null;
-				
+
 		try {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query);
-			
+
 			if(rs.next()){
 				p = new Product(
-							rs.getString("upc"),
-							rs.getString("name"),
-							rs.getDouble("price"),
-							getCategoryById(rs.getInt("category_id")),
-							getDistributorById(rs.getInt("distributor_id")),
-							getManufacturerById(rs.getInt("manufacturer_id")),
-							new Date(rs.getLong("date_created"))
+						rs.getString("upc"),
+						rs.getString("name"),
+						rs.getDouble("price"),
+						getCategoryById(rs.getInt("category_id")),
+						getDistributorById(rs.getInt("distributor_id")),
+						getManufacturerById(rs.getInt("manufacturer_id")),
+						new Date(rs.getLong("date_created"))
 						);
 			}
 
@@ -375,14 +395,14 @@ public class DBUtilities {
 		} finally {
 			this.closeConnection(con);	
 		}
-		
+
 		return p;
 	}
-	
+
 	public void getProductByName() {
-		
+
 	}
-	
+
 	/**
 	 * This function returns all the products in inventory for the supermarket.
 	 * It selects all the upc from the supermarkets_stock table for which the 
@@ -398,12 +418,12 @@ public class DBUtilities {
 	public ArrayList<InventoryProduct> getProductsOnInventoryForSupermarket(int supermarketId) {
 		String stockQuery = "SELECT * FROM supermarkets_stock WHERE supermarket_id=?";
 		ArrayList<InventoryProduct> products = new ArrayList<InventoryProduct>();
-		
+
 		Connection con = this.getConnection();
 		try{
 			PreparedStatement stockStatement 	= con.prepareStatement(stockQuery);
 			stockStatement.setInt(1, supermarketId);
-			
+
 			ResultSet stockResult  				= stockStatement.executeQuery();
 
 			while(stockResult.next()) {
@@ -416,13 +436,47 @@ public class DBUtilities {
 						new Date(stockResult.getLong("date_last_updated"))
 						));
 			}
-			
+
 		} catch(SQLException ex) {
 			ex.printStackTrace();
 		} finally {
 			this.closeConnection(con);
 		}
-		
+
+		return products;
+	}
+
+	/**
+	 * Gets all the products in the inventory database.
+	 * @return
+	 */
+	public ArrayList<Product> getAllProducts() {
+		String query = "SELECT * FROM products";
+		ArrayList<Product> products = new ArrayList<Product>();
+		Connection con = this.getConnection();
+
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+
+			while( rs.next() ) {
+				Product p = new Product( rs.getString("upc"), 
+						rs.getString("name"),
+						rs.getDouble("price"), 
+						getCategoryById(rs.getInt("category_id")), 
+						getDistributorById(rs.getInt("distributor_id")), 
+						getManufacturerById(rs.getInt("manufacturer_id")), 
+						new Date(rs.getLong("date_created"))
+						);
+				products.add(p); 
+			}
+
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			this.closeConnection(con);
+		}
+
 		return products;
 	}
 }

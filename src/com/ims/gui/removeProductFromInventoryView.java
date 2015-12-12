@@ -16,6 +16,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.ims.components.DBUtilities;
+
 public class removeProductFromInventoryView extends JFrame implements ActionListener {
 
 
@@ -26,6 +28,7 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 	JButton cancelButton = new JButton("Cancel");
 	JButton resetButton = new JButton("Reset Field");
 	
+	DBUtilities db = new DBUtilities();
 
 	JTextField searchTextField = new JTextField(20);
 	JTextArea productArea = new JTextArea();
@@ -113,7 +116,7 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 				
 			}
 			else if(e.getActionCommand()==("Remove")){
-				removeProduct();
+				//db.removeProductFromInventory(1, "10000000028");
 			}
 			else if(e.getActionCommand()==("Cancel")){
 				
