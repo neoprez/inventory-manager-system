@@ -25,6 +25,7 @@ import org.json.simple.parser.ParseException;
 import com.ims.classes.Category;
 import com.ims.classes.Distributor;
 import com.ims.classes.InventoryProduct;
+import com.ims.classes.Manager;
 import com.ims.classes.Manufacturer;
 import com.ims.classes.Product;
 
@@ -554,5 +555,32 @@ public class DBUtilities {
 		}
 
 		return products;
+	}
+	
+	public Manager getManagerBySupermarketId(int supermarketId) {
+		Manager manager = null;
+		Connection con = this.getConnection();
+		
+		try {
+			String sql = "SELECT * FROM employees WHERE store_id=?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, supermarketId);
+			ResultSet rs = st.executeQuery();
+			
+			if( rs.next() ) {
+				manager = new Manager( 
+						rs.getString("first_name"), 
+						rs.getString("last_name"),
+						rs.getString("email_address"));
+			
+			}
+			
+		} catch( SQLException ex) {
+			
+		} finally {
+			this.closeConnection(con);
+		}
+		
+		return manager;
 	}
 }
