@@ -35,7 +35,18 @@ public class DBUtilities {
 	private static String PORT;
 	private static String USER;
 	private static String PASSWORD;
-
+	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	/*
+	 * Enum to define the class name as constants,
+	 * to avoid having to replace strings every time we
+	 * change the table name.
+	 */
+	private enum IMSTable {
+		PRODUCTS, SUPERMARKETS, CATEGORIES,
+		MANUFACTURERS, DISTRIBUTORS, SUPERMARKETS_STOCK,
+		EMPLOYEES;
+		
+	}
 	/*
 	 * Initialization block needed to get the information for
 	 * connecting to the database.
@@ -131,7 +142,7 @@ public class DBUtilities {
 		Connection con = this.getConnection();
 
 		try {
-			String query = "INSERT INTO supermarkets_stock (product_upc, "
+			String query = "INSERT INTO " + IMSTable.SUPERMARKETS_STOCK + " (product_upc, "
 					+ "supermarket_id, product_count, has_notification, "
 					+ "date_last_updated, threshold_count) VALUES (?,?,?,?,?,?)";
 
@@ -140,7 +151,6 @@ public class DBUtilities {
 			st.setInt(2, p.getSupermarketID());
 			st.setInt(3, p.getCount());
 			st.setBoolean(4, p.hasNotification());
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			st.setString(5, dateFormat.format(new Date()));
 			st.setInt(6, p.getThresholdCount());
 			success = !st.execute();
@@ -158,7 +168,7 @@ public class DBUtilities {
 
 
 		try{
-			String query = "DELETE FROM supermarkets_stock "
+			String query = "DELETE FROM " + IMSTable.SUPERMARKETS_STOCK
 					+ "WHERE product_upc=? and supermarket_id=?";
 		
 
@@ -172,7 +182,7 @@ public class DBUtilities {
 	}
 	
 	private void updateNotificationForProduct(String upc, int supermarketId, boolean value){
-		String query = "UPDATE supermarkets_stock SET has_notification=? WHERE product_upc=? AND supermarket_id=?";
+		String query = "UPDATE " + IMSTable.SUPERMARKETS_STOCK + " SET has_notification=? WHERE product_upc=? AND supermarket_id=?";
 		Connection con = this.getConnection();
 		
 		try {
@@ -201,7 +211,7 @@ public class DBUtilities {
 	}
 
 	public void setThresholdForProduct(String upc, int supermarketId, int thresholdCount) {
-		String query = "UPDATE supermarkets_stock SET threshold_count=? WHERE product_upc=? AND supermarket_id=?";
+		String query = "UPDATE " + IMSTable.SUPERMARKETS_STOCK + " SET threshold_count=? WHERE product_upc=? AND supermarket_id=?";
 		Connection con = this.getConnection();
 		
 		try {
@@ -234,7 +244,7 @@ public class DBUtilities {
 		if( upcs.isEmpty() ) { 
 			success = false;
 		} else {
-			String query	= "UPDATE supermarkets_stock SET product_count" + 
+			String query	= "UPDATE " + IMSTable.SUPERMARKETS_STOCK + " SET product_count" + 
 					"=product_count-? WHERE product_upc= ? and supermarket_id=?";
 			Connection con 	= this.getConnection();
 
@@ -257,8 +267,6 @@ public class DBUtilities {
 			this.closeConnection(con);
 		}
 
-
-
 		return success;
 	}
 
@@ -279,7 +287,7 @@ public class DBUtilities {
 		if( upcs.isEmpty() ) { 
 			success = false;
 		} else {
-			String query	= "UPDATE supermarkets_stock SET product_count" + 
+			String query	= "UPDATE "  + IMSTable.SUPERMARKETS_STOCK + " SET product_count" + 
 					"=product_count+? WHERE product_upc= ? and supermarket_id=?";
 			Connection con 	= this.getConnection();
 
@@ -311,7 +319,7 @@ public class DBUtilities {
 	 * @return Returns a Category. 
 	 */
 	public Category getCategoryById(int categoryId) {
-		String query 	= "SELECT * FROM categories WHERE id=?";
+		String query 	= "SELECT * FROM " + IMSTable.CATEGORIES + " WHERE id=?";
 		Category category = new Category();
 		Connection con = this.getConnection();
 
@@ -339,7 +347,7 @@ public class DBUtilities {
 	 * @return Returns a Distributor. 
 	 */
 	public Distributor getDistributorById(int distributorId) {
-		String query 	= "SELECT * FROM distributors WHERE id=?";
+		String query 	= "SELECT * FROM " + IMSTable.DISTRIBUTORS + " WHERE id=?";
 		Distributor distributor = new Distributor();
 		Connection con = this.getConnection();
 
@@ -367,7 +375,7 @@ public class DBUtilities {
 	 * @return Returns a Manufacturer. 
 	 */
 	public Manufacturer getManufacturerById(int manufacturerId) {
-		String query 	= "SELECT * FROM manufacturers WHERE id=?";
+		String query 	= "SELECT * FROM " + IMSTable.MANUFACTURERS + " WHERE id=?";
 		Manufacturer manufacturer = new Manufacturer();
 		Connection con = this.getConnection();
 
@@ -395,7 +403,7 @@ public class DBUtilities {
 	 * If the product exists it returns a new Product object 
 	 */
 	public Product getProductByUPC(String upc) {
-		String query 	= "SELECT * FROM products WHERE upc='" + upc + "'";
+		String query 	= "SELECT * FROM " + IMSTable.PRODUCTS + " WHERE upc='" + upc + "'";
 		Connection con 	= this.getConnection();
 		Product p		= null;
 
@@ -441,7 +449,7 @@ public class DBUtilities {
 	 * this list is empty.
 	 */
 	public ArrayList<InventoryProduct> getProductsOnInventoryForSupermarket(int supermarketId) {
-		String stockQuery = "SELECT * FROM supermarkets_stock WHERE supermarket_id=?";
+		String stockQuery = "SELECT * FROM "  + IMSTable.SUPERMARKETS_STOCK + " WHERE supermarket_id=?";
 		ArrayList<InventoryProduct> products = new ArrayList<InventoryProduct>();
 
 		Connection con = this.getConnection();
@@ -477,7 +485,7 @@ public class DBUtilities {
 	 * @return
 	 */
 	public ArrayList<Product> getAllProducts() {
-		String query = "SELECT * FROM products";
+		String query = "SELECT * FROM " + IMSTable.PRODUCTS;
 		ArrayList<Product> products = new ArrayList<Product>();
 		Connection con = this.getConnection();
 
