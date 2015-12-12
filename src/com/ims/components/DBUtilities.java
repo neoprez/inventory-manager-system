@@ -479,6 +479,48 @@ public class DBUtilities {
 
 		return products;
 	}
+	
+	public ArrayList<InventoryProduct> getProductsToBeRestocked() {
+		ArrayList<InventoryProduct> products = new ArrayList<InventoryProduct>();
+		Connection con = this.getConnection();
+		
+		try {
+			String sql = "SELECT * FROM " + IMSTable.SUPERMARKETS_STOCK + " WHERE has_notification=1 AND ( product_count - threshold_count ) <= 0";
+			Statement st = con.createStatement();
+			
+			ResultSet rs = st.executeQuery(sql);
+			
+			while( rs.next() ) {
+				Date dateAdded = null;
+				Date dateLastUpdated = null;
+				
+				try {
+					dateAdded = dateFormat.parse(rs.getString("date_added"));
+					dateLastUpdated = dateFormat.parse(rs.getString("date_last_updated"));
+				} catch (java.text.ParseException e) {
+					e.printStackTrace();
+				}
+				
+				Product product = this.getProductByUPC(rs.getString("product_upc"));
+				InventoryProduct inventoryProduct = new InventoryProduct(product,
+						rs.getBoolean("has_notification"),
+						rs.getInt("supermarket_id"),
+						rs.getInt("product_count"),
+						rs.getInt("threshold_count"),
+						dateAdded,
+						dateLastUpdated
+						);
+				
+				products.add(inventoryProduct);
+			}
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			this.closeConnection(con);
+		}
+		
+		return products;
+	}
 
 	/**
 	 * Gets all the products in the inventory database.
