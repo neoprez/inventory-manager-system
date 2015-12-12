@@ -3,8 +3,8 @@ package com.ims.classes;
 public class Cashier extends Employee {
 	private boolean isOnMachine;
 	
-	public Cashier(String firstName, String lastName) {
-		super(firstName, lastName, Position.CASHIER);
+	public Cashier(String firstName, String lastName, String emailAddress) {
+		super(firstName, lastName, Position.CASHIER, emailAddress);
 		isOnMachine = false;
 	}
 	
