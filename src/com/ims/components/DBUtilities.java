@@ -131,15 +131,16 @@ public class DBUtilities {
 		try {
 			String query = "INSERT INTO supermarkets_stock (product_upc, "
 					+ "supermarket_id, product_count, has_notification, "
-					+ "date_last_updated) VALUES (?,?,?,?,?)";
+					+ "date_last_updated, threshold_count) VALUES (?,?,?,?,?,?)";
 
 			PreparedStatement st = con.prepareStatement(query);
 			st.setString(1, p.getUpc());
 			st.setInt(2, p.getSupermarketID());
 			st.setInt(3, p.getCount());
 			st.setBoolean(4, p.hasNotification());
-			java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
-			st.setDate(5, date);
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			st.setString(5, dateFormat.format(new Date()));
+			st.setInt(6, p.getThresholdCount());
 			success = !st.execute();
 		} catch(SQLException ex) {
 			ex.printStackTrace();
