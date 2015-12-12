@@ -1,5 +1,5 @@
 package com.ims.components;
 
-public class Notifier {
+public class Emailer {
 
 }
