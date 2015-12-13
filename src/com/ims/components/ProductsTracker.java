@@ -23,7 +23,7 @@ public class ProductsTracker implements Runnable {
 		lastTimeChecked			= 0;
 	}
 	
-	public long notifyAboutProductsInNeedToOfRestock() {
+	public long checkFoProductsInNeedToOfRestock() {
 		ArrayList<InventoryProduct> products = db.getProductsToBeRestocked();
 		
 		if( products.size() < 1 ) {
@@ -76,7 +76,7 @@ public class ProductsTracker implements Runnable {
 	public void run() {
 		while(true){
 			try {
-				long updateTime = notifyAboutProductsInNeedToOfRestock();
+				long updateTime = checkFoProductsInNeedToOfRestock();
 				if( updateTime == -1 ) {
 					System.out.println("No emails sent");
 				}
