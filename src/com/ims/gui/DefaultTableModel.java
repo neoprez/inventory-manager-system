@@ -2,13 +2,13 @@ package com.ims.gui;
 
 import javax.swing.table.AbstractTableModel;
 
-public class ProductsTableModel extends AbstractTableModel {
+public class DefaultTableModel extends AbstractTableModel {
 	private String[] columnNames;	
 	private Object[][] products;
 	boolean selected = false;
 	
 	
-	public ProductsTableModel(Object[][] products, String[] columnNames){
+	public DefaultTableModel(Object[][] products, String[] columnNames){
 		this.columnNames = columnNames;
 		this.products = products;
 		
@@ -20,6 +20,8 @@ public class ProductsTableModel extends AbstractTableModel {
 		return column == 5;
 		
 	}
+	
+
 	
 	@Override
 	public void setValueAt(Object inValue, int inRow, int inCol){

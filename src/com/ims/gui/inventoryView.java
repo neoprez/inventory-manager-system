@@ -60,24 +60,23 @@ public class inventoryView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getActionCommand()==("Add Product to Inventory")){
-			addProductToInventoryView frame = new addProductToInventoryView();// you can have your own parameters of course	
+			addProductToInventoryView frame = new addProductToInventoryView();	
 			frame.setVisible(true);
 		}
 
-
 		else if(e.getActionCommand()==("Restock Inventory")){
-			restockView frame = new restockView();// you can have your own parameters of course	
+			restockView frame = new restockView();
 			frame.setVisible(true);
 		}
 
 		else if(e.getActionCommand()==("Remove Product From Inventory")){
-			removeProductFromInventoryView frame = new removeProductFromInventoryView();// you can have your own parameters of course	
+			removeProductFromInventoryView frame = new removeProductFromInventoryView();
 			frame.setVisible(true);
 
 		}
 
 		else if(e.getActionCommand()==("Generate Report")){
-			generateReportView frame = new generateReportView();// you can have your own parameters of course	
+			generateReportView frame = new generateReportView();
 			frame.setVisible(true);
 		}
 		

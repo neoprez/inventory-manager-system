@@ -17,9 +17,11 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.ims.components.DBUtilities;
+
 public class resupplyNotificationView extends JFrame implements ActionListener {
 
-	
+	DBUtilities db = new DBUtilities();
 	
 	JButton searchButton = new JButton("Search");
 	JButton acceptButton = new JButton("Accept");
@@ -52,30 +54,8 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 		};
 	
 	
-	ProductsTableModel model = new ProductsTableModel(product, columnNames);
+	DefaultTableModel model = new DefaultTableModel(product, columnNames);
 	JTable table = new JTable(model);
-	
-	public void setNotification(){
-		 
-		/*   
-		if(model.selected = true){
-			int[] selection = table.getSelectedRows();
-			   for (int i = 0; i < selection.length; i++) {
-			     selection[i] = table.convertRowIndexToModel(selection[i]);
-			     JOptionPane.showInputDialog(table, "Assign a count threshold by indicating a numeric value in an input field next to each of these "
-			     		+ "products");
-			   }
-			   
-		}
-		else {
-			   JOptionPane.showMessageDialog(null, "You have not selected any products");
-		   } */
-	}
-	
-	
-	public void removeNotification(){
-		
-	}
 
 	
 	public resupplyNotificationView() {
@@ -85,7 +65,6 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
-		//add(returnButton, BorderLayout.SOUTH);
 		add(buttonPanel, BorderLayout.EAST);
 		buttonPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		buttonPanel.setLayout(new GridLayout(0,1));
@@ -120,7 +99,7 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getActionCommand()==("Accept")){
-			setNotification();
+			db.setNotificationForProduct("10000000000", 1);
 		}
 
 		else if(e.getActionCommand()==("Cancel")){

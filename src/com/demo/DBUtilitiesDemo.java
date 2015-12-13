@@ -33,7 +33,7 @@ public class DBUtilitiesDemo {
 			System.out.println(product);
 		}*/
 		
-		db.removeProductFromInventory(1, "1000000033");
+		db.removeProductFromInventory(1, "1000000001");
 		//db.removeNotificationForProduct("384293829823", 1);
 		//db.setNotificationForProduct("384293829823", 2);
 	}

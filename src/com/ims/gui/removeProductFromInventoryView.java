@@ -6,21 +6,25 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
+import com.ims.classes.InventoryProduct;
 import com.ims.components.DBUtilities;
 
 public class removeProductFromInventoryView extends JFrame implements ActionListener {
 
-
+	DBUtilities db = new DBUtilities();
 
 	JButton returnButton = new JButton("Return");
 	JButton searchButton = new JButton("Search");
@@ -28,7 +32,7 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 	JButton cancelButton = new JButton("Cancel");
 	JButton resetButton = new JButton("Reset Field");
 	
-	DBUtilities db = new DBUtilities();
+	
 
 	JTextField searchTextField = new JTextField(20);
 	JTextArea productArea = new JTextArea();
@@ -36,7 +40,8 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 
 	JLabel removeLabel = new JLabel("Remove");
 
-
+	ArrayList<InventoryProduct> products;
+	
 	String[] columnNames = {"Name",
             "UPC",
             "Manufacturer",
@@ -45,7 +50,7 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 	
 	
 	
-	Object[][] product = {
+	Object[][] product /*= {
 		    {"Banana", "24384445485",
 		     "Ecuador", "Manga", "Food", Boolean.FALSE},
 		    {"Apple", "3894745876485",
@@ -53,17 +58,11 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 		    {"Cake", "83945745864",
 		     "Bakery", "HP", "Cleaning", Boolean.FALSE},
 
-		};
-	
-	ProductsTableModel model = new ProductsTableModel(product, columnNames);
-	JTable table = new JTable(model);
-	
-	
-	
-		public void removeProduct(){
-		// Larry's code will be implemented
+		}*/;
 		
-	}
+		DefaultTableModel model;
+	//JTable table = new JTable(model);
+		JTable table;
 	
 	
 		public removeProductFromInventoryView(){
@@ -74,7 +73,54 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 		
-		add(table, BorderLayout.CENTER);
+		products = db.getProductsOnInventoryForSupermarket(1);
+		
+		product = new Object[products.size()][6];
+		
+		
+		
+		int row= 0;
+		
+		for(InventoryProduct p: products) {
+			product[row][0] = p.getName();
+			product[row][1] = p.getUpc();
+			product[row][2] = p.getManufacturer().getName();
+			product[row][3] = p.getDistributor().getName();
+			product[row][4] = p.getCategory().getName();
+			product[row][5] = false;
+			row++;	
+		}
+		model =  new DefaultTableModel(product, columnNames) {
+			
+			@Override
+			public boolean isCellEditable(int row, int column){
+			
+			return column == 5;
+			
+		}
+			
+
+			//
+		    // This method is used by the JTable to define the default
+		    // renderer or editor for each cell. For example if you have
+		    // a boolean data it will be rendered as a check box. A
+		    // number value is right aligned.
+		    //
+			
+		    @Override
+		    public Class<?> getColumnClass(int columnIndex) {
+		        return product[0][columnIndex].getClass();
+		    }
+		
+		};
+		table = new JTable(model);
+		setBackground(Color.LIGHT_GRAY);
+		setLayout(new BorderLayout(5,10));
+
+		JScrollPane scrollPane = new JScrollPane(table);
+		add(scrollPane, BorderLayout.CENTER);
+	
+		
 		add(searchTextField, BorderLayout.NORTH);
 	
 		
@@ -116,7 +162,28 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 				
 			}
 			else if(e.getActionCommand()==("Remove")){
-				//db.removeProductFromInventory(1, "10000000028");
+				ArrayList<Integer> rows = new ArrayList<Integer>();
+				for(int i = 0; i <table.getRowCount(); i ++){
+					if((Boolean)table.getValueAt(i, 5)==true) {
+						rows.add(i);
+						InventoryProduct product = products.get(i);
+						//db.removeProductFromInventory(product.getSupermarketID(), product.getUpc());
+					}
+				}
+				for(int i = rows.size(); i > 0; i --){
+					int row = rows.get(i-1);
+					
+					model.removeRow(row); 
+					products.remove(row);
+				}
+						//db.removeProductFromInventory(1, "1000000028");
+					// once the person click remove, go through all the products in the list if the checkbox is selected, get product from products array..remove 
+					// product from inventory
+					/*int row = table.getSelectedRow();
+					if(row >= 0){*/
+						
+					
+
 			}
 			else if(e.getActionCommand()==("Cancel")){
 				

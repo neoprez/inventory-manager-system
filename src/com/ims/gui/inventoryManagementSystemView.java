@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import com.ims.classes.InventoryProduct;
 import com.ims.components.DBUtilities;
@@ -18,13 +19,6 @@ public class inventoryManagementSystemView extends JPanel{
 	JScrollPane scrollPane = new JScrollPane();
 	
 	
-	public static String getSearchField(String searchWord){
-		
-		searchWord = searchField.getText();
-		
-		return searchWord;
-	}
-	
 	String[] columnNames = {"Name",
             "UPC",
             "Manufacturer",
@@ -33,23 +27,16 @@ public class inventoryManagementSystemView extends JPanel{
 	
 	
 	
-	Object[][] product;/* = {
-		    {"Banana", "24384445485",
-		     "Ecuador", "Manga", "Food", "5"},
-		    {"Apple", "3894745876485",
-		     "USA", "Tupa", "Food", "4"},
-		    {"Cake", "83945745864",
-		     "Bakery", "HP", "Cleaning", "23"},
-		};*/
+	Object[][] product;
 	
 	
-	JTable table;// = new JTable( new ProductsTableModel(product, columnNames) );
-	
+	DefaultTableModel model = new DefaultTableModel(product, columnNames);
+	JTable table = new JTable(model);
 	
 	
 	public inventoryManagementSystemView(){
 		DBUtilities db = new DBUtilities();
-		for(int i = 0; i < 6; i++){
+
 		ArrayList<InventoryProduct> products = db.getProductsOnInventoryForSupermarket(1);
 		
 		product = new Object[products.size()][6];
@@ -65,14 +52,13 @@ public class inventoryManagementSystemView extends JPanel{
 			product[row][5] = p.getCount();
 			row++;	
 		}
-		}
-		table = new JTable( new ProductsTableModel(product, columnNames) );
+		
+		table = new JTable( new DefaultTableModel(product, columnNames) );
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(new BorderLayout(5,10));
 		add(searchField, BorderLayout.NORTH);
-		add(table, BorderLayout.CENTER);
 		JScrollPane scrollPane = new JScrollPane(table);
-		add(scrollPane);
+		add(scrollPane, BorderLayout.CENTER);
 	}
 
 }

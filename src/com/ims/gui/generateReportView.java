@@ -66,7 +66,7 @@ public class generateReportView extends JFrame implements Printable, ActionListe
 			};
 		
 		
-		JTable table = new JTable( new ProductsTableModel(product, columnNames) );
+		JTable table = new JTable( new DefaultTableModel(product, columnNames) );
 		
 		
 		public generateReportView(){
