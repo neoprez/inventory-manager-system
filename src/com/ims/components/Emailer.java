@@ -32,7 +32,27 @@ public class Emailer {
 	private String FROM;
 	private String SERVER_EMAIL;
 	private String SERVER_EMAIL_PASSWORD;
-	
+	private static final String EMAIL_TEMPLATE_STYLE = "<link href='https://fonts.googleapis.com/css?family=Erica+One' rel='stylesheet' type='text/css'><style>" +
+			"table { margin: 0 auto; width: 768px; font-family:  Arial, Helvetica, sans-serif; border-collapse: collapse;}" +
+			"table td, table th { padding: 10px; }" +
+			"table h1 { font-family:  'Erica One', cursive;}" +
+			"h1, h3, p {text-align: center; margin: 0; }" +
+			".logo h1 { font-size: 72px;} " +
+			".logo p { margin-top: -20px; color: #5D5D5D; }" +
+			"h3 { text-transform: uppercase; color: #F44336; font-weight: bold; }" +
+			"tbody td, tbody th { border: 1px solid #000; }" +
+			"tbody td, tbody th { border-top: 0; border-left: 0; border-right: 0; }" +
+			"tbody th { border-top: 1px solid #000;}" +
+			"tbody td:first-child, th:first-child { border-left: 1px solid #000;}"+
+			"tbody td:last-child, th:last-child {border-right: 1px solid #000;}" +
+			".header { background-color: #FFEB3B;font-weight: bold;text-transform: uppercase;}"+
+			"</style>";
+	private static final String EMAIL_TEMPLATE_HEADER = "<table>" +
+			"<thead><tr><td class=\"logo\" colspan=\"3\">" +
+			"<h1>IMS</h1><p>Notification System</p></td></tr><tr><td colspan=\"3\">" +
+			"<h3>These products need to be restocked</h3></td></tr></thead>" +
+			"<tbody><tr class=\"header\"><th>Product UPC</th><th>Product name</th><th>Current Count</th></tr>";
+	private static final String EMAIL_TEMPLATE_FOOTER = "</tbody></table>";
 	/*
 	 * Load email configuration file.
 	 */
@@ -107,19 +127,15 @@ public class Emailer {
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			message.setSubject("Product Restock Notification");
 			
-			String productsStr = "<style> thead td { background-color: #FFE700; font-weight: bold; }"
-					+ " table { border: 1px solid #E5E4DA; } table td { padding: 10px; } </style><h1 style=\"color: ##990000;\">"
-					+ "These products need to be restocked</h1><table> <thead>"
-					+ "<td>Product UPC</td><td>Product Name</td> <td>Current Count</td></thead>"
-					+ "<tbody>";
+			String productsStr = Emailer.EMAIL_TEMPLATE_STYLE + Emailer.EMAIL_TEMPLATE_HEADER;
 			
 			for(InventoryProduct product : products) {
-				productsStr += "<tr><td>" + product.getUpc() + "</td><td>" +
+				productsStr += "<tr><td><a href='#'>" + product.getUpc() + "</a></td><td>" +
 							product.getName() + "</td><td>" +
 							product.getCount()
 						+ "</td></tr>";
 			}
-			productsStr += "</tbody></table>";
+			productsStr += Emailer.EMAIL_TEMPLATE_FOOTER;
 			
 			message.setContent(productsStr, "text/html; charset=utf-8");
 			
