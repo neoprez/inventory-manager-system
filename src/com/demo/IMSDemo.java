@@ -40,7 +40,7 @@ public class IMSDemo {
 		 */
 		for(int i = 0; i < n; i++) {
 			cms.startOrder();
-			cms.addProduct(new Product("123456789012", "Banana", 0.99, new Category(1, "Fruits")));
+			cms.addProduct(new Product("384293829823", "Banana", 0.99, new Category(1, "Fruits")));
 			cms.addProduct(new Product("123498789012", "Apple", 1.00, new Category(1, "Fruits")));
 			cms.addProduct(new Product("984023582395", "Cheese", 2.99, new Category(2, "Dairy")));
 			cms.addProduct(new Product("123840320458", "Guacamole", 5.99,new Category(1, "Fruits")));
@@ -66,7 +66,7 @@ public class IMSDemo {
 		
 		new Thread() {
 			public void run() {
-				IMSDemo cms2 = new IMSDemo(2,20);
+				IMSDemo cms2 = new IMSDemo(2,30);
 				cms2.sendAllOrders();
 			}
 		}.start();	
