@@ -6,13 +6,15 @@ public abstract class Employee {
 	private String lastName;
 	private int supermarketId;
 	private Position position;
+	private String emailAddress;
 	
-	public Employee(String firstName, String lastName, Position position) {
+	public Employee(String firstName, String lastName, Position position, String emailAddress) {
 		this.firstName 			= firstName;
 		this.lastName 			= lastName;
 		this.position 			= position;
 		this.id					= 0;
 		this.supermarketId		= 0;
+		this.emailAddress		= emailAddress;
 	}
 
 	public int getId() {
@@ -55,5 +57,12 @@ public abstract class Employee {
 		this.position = position;
 	}
 	
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+	
+	public String getEmailAddress() {
+		return this.emailAddress;
+	}
 	
 }
