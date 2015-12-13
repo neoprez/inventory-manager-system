@@ -21,7 +21,7 @@ public class DBUtilitiesDemo {
 		p.setSupermarketID(2);
 		p.setThresholdCount(300);
 		p.setCount(470);
-		
+		//db.restockProductForSupermarket(2, "384293829823", 500);
 		/*if( db.addProductToInventory(p.getSupermarketID(), p) ) {
 			System.out.println("Success");
 		} else {
