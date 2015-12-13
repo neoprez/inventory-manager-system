@@ -2,16 +2,17 @@ package com.demo;
 
 import com.ims.classes.Cashier;
 import com.ims.classes.Category;
-import com.ims.classes.CustomerOrder;
+import com.ims.classes.Order;
 import com.ims.classes.Product;
+import com.ims.classes.ReturnOrder;
 
 public class IMSDemo {
-	private CustomerOrder[] orders;
+	private Order[] orders;
 	private OrderSender os;
 	private Supermarket sm;
 	
 	public IMSDemo(int id, int n) {
-		orders = new CustomerOrder[n];
+		orders = new Order[n];
 		sm = new Supermarket(id);
 		os = new OrderSender();
 		fillArray(id, n);
@@ -39,19 +40,19 @@ public class IMSDemo {
 		 * Orders
 		 */
 		for(int i = 0; i < n; i++) {
-			cms.startOrder();
-			cms.addProduct(new Product("123456789012", "Banana", 0.99, new Category(1, "Fruits")));
+			cms.startCustomerOrder();
+			cms.addProduct(new Product("384293829823", "Banana", 0.99, new Category(1, "Fruits")));
 			cms.addProduct(new Product("123498789012", "Apple", 1.00, new Category(1, "Fruits")));
 			cms.addProduct(new Product("984023582395", "Cheese", 2.99, new Category(2, "Dairy")));
 			cms.addProduct(new Product("123840320458", "Guacamole", 5.99,new Category(1, "Fruits")));
-			cms.addProduct(new Product("785325623552", "Bacon", 0.99,new Category(2, "Meat")));
-			orders[i] = cms.completeOrder();
+			cms.addProduct(new Product("384293829823", "Bacon", 0.99,new Category(2, "Meat")));
+			orders[i] = cms.completeCustomerOrder();
 			orders[i].setId(i+1);
 		}
 	}
 
 	public void sendAllOrders() {
-		for(CustomerOrder order : orders ) {
+		for(Order order : orders ) {
 			os.sendOrder(order);
 		}
 	}
@@ -66,7 +67,7 @@ public class IMSDemo {
 		
 		new Thread() {
 			public void run() {
-				IMSDemo cms2 = new IMSDemo(2,20);
+				IMSDemo cms2 = new IMSDemo(2,3);
 				cms2.sendAllOrders();
 			}
 		}.start();	

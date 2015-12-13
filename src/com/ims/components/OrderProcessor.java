@@ -82,7 +82,7 @@ public class OrderProcessor implements Runnable {
 		if( isCustomerOrder(order) ) {
 			success = dbAPI.decreaseProductCount( order.getSupermarketId(), productsCountByUPC );
 		} else if ( isReturnOrder(order) ) {
-			
+			success = dbAPI.increaseProductCount(order.getSupermarketId(), productsCountByUPC);
 		} else if( isExchangeOrder(order) ){
 			
 		}

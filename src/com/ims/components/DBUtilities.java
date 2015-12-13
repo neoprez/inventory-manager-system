@@ -276,7 +276,7 @@ public class DBUtilities {
 	 * If at least one of the products could not be updated it, it returns false.
 	 * 
 	 * @param storeID
-	 * @param upcs
+	 * @param upcs. A hashmap containing the upc, amount to increase for the products. 
 	 * @return
 	 */
 	public boolean increaseProductCount(int supermarketId, HashMap<String, Integer> upcs) {
@@ -581,5 +581,24 @@ public class DBUtilities {
 		}
 		
 		return manager;
+	}
+	
+	public void restockProductForSupermarket(int supermarketId, String productUpc, int amountToAdd ) {
+		String query	= "UPDATE "  + IMSTable.SUPERMARKETS_STOCK + " SET product_count" + 
+				"=product_count+?, date_last_updated=? WHERE product_upc= ? and supermarket_id=?";
+		Connection con = this.getConnection();
+		
+		try {
+			PreparedStatement st = con.prepareStatement(query);
+			st.setInt(1, amountToAdd);
+			st.setString(2, dateFormat.format(new Date()));
+			st.setString(3, productUpc);
+			st.setInt(4, supermarketId);
+			st.execute();
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			this.closeConnection(con);
+		}
 	}
 }
