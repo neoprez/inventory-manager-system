@@ -146,6 +146,9 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 				if((Boolean)table.getValueAt(i, 5)==true) {
 					rows.add(i);
 					InventoryProduct product = products.get(i);
+					String count = JOptionPane.showInputDialog(null, "Please enter the amount for the threshold");
+					int thresholdNumber = Integer.parseInt(count);
+					db.setThresholdForProduct(product.getUpc(), product.getSupermarketID(), thresholdNumber);
 					//db.setNotificationForProduct(product.getUpc(), );
 				}else{
 					JOptionPane.showMessageDialog(null, "You must select a product");
