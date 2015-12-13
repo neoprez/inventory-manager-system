@@ -75,8 +75,11 @@ public class ProductsTracker implements Runnable {
 	public void run() {
 		while(true){
 			try {
-				lastTimeChecked = notifyAboutProductsInNeedToOfRestock();
-				Thread.sleep(10000);
+				notifyAboutProductsInNeedToOfRestock();
+				/*
+				 * Sleep until next time to update
+				 */
+				Thread.sleep(this.updateFrequency);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
