@@ -3,6 +3,7 @@ package com.ims.components;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import com.ims.classes.InventoryProduct;
 import com.ims.classes.Manager;
@@ -75,7 +76,11 @@ public class ProductsTracker implements Runnable {
 	public void run() {
 		while(true){
 			try {
-				notifyAboutProductsInNeedToOfRestock();
+				long updateTime = notifyAboutProductsInNeedToOfRestock();
+				if( updateTime == -1 ) {
+					System.out.println("No emails sent");
+				}
+				System.out.println("Will check again in " + TimeUnit.MILLISECONDS.toSeconds(updateFrequency) + " seconds.");
 				/*
 				 * Sleep until next time to update
 				 */
