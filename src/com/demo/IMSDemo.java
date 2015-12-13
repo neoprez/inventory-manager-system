@@ -21,8 +21,8 @@ public class IMSDemo {
 		/*
 		 * Employees
 		 */
-		Cashier cs = new Cashier("Chupa", "Cabras");
-		Cashier cs2 = new Cashier("Lion", "King");
+		Cashier cs = new Cashier("Chupa", "Cabras", "chupacabras@localhost.com");
+		Cashier cs2 = new Cashier("Lion", "King", "lionking@localhost.com");
 		cs.setId(1);
 		cs2.setId(2);
 		sm.addCashier(cs);

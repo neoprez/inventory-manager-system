@@ -12,12 +12,15 @@ import javax.swing.table.DefaultTableModel;
 import com.ims.classes.InventoryProduct;
 import com.ims.components.DBUtilities;
 
+@SuppressWarnings("serial")
 public class inventoryManagementSystemView extends JPanel{
 	
 	
 	static JTextField searchField = new JTextField();
 	JScrollPane scrollPane = new JScrollPane();
+	DBUtilities db = new DBUtilities();
 	
+	//ArrayList<InventoryProduct> products;
 	
 	String[] columnNames = {"Name",
             "UPC",
@@ -30,14 +33,15 @@ public class inventoryManagementSystemView extends JPanel{
 	Object[][] product;
 	
 	
-	DefaultTableModel model = new DefaultTableModel(product, columnNames);
-	JTable table = new JTable(model);
+
+	JTable table;// = new JTable( new ProductsTableModel(product, columnNames) );
 	
+
 	
 	public inventoryManagementSystemView(){
-		DBUtilities db = new DBUtilities();
-
+		
 		ArrayList<InventoryProduct> products = db.getProductsOnInventoryForSupermarket(1);
+		
 		
 		product = new Object[products.size()][6];
 		
@@ -59,6 +63,6 @@ public class inventoryManagementSystemView extends JPanel{
 		add(searchField, BorderLayout.NORTH);
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane, BorderLayout.CENTER);
-	}
 
+	}
 }
