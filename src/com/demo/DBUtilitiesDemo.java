@@ -35,9 +35,10 @@ public class DBUtilitiesDemo {
 		for(InventoryProduct product : products) {
 			System.out.println(product);
 		}*/
-		ProductsTracker pt = new ProductsTracker(10);
-		Thread ptThread = new Thread(pt);
-		ptThread.start();
+		//long updateFrequency = 30000; // 30 second
+		//ProductsTracker pt = new ProductsTracker(updateFrequency);
+		//Thread ptThread = new Thread(pt);
+		//ptThread.start();
 		//pt.notifyAboutProductsInNeedToOfRestock();
 		//db.removeProductFromInventory(2, "384293829823");
 		//db.addProductToInventory(2, p);
