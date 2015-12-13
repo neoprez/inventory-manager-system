@@ -35,14 +35,14 @@ public class DBUtilitiesDemo {
 		for(InventoryProduct product : products) {
 			System.out.println(product);
 		}*/
-		//long updateFrequency = 30000; // 30 second
-		//ProductsTracker pt = new ProductsTracker(updateFrequency);
-		//Thread ptThread = new Thread(pt);
-		//ptThread.start();
+		/*long updateFrequency = 30000; // 30 second
+		ProductsTracker pt = new ProductsTracker(updateFrequency);
+		Thread ptThread = new Thread(pt);
+		ptThread.start();*/
 		//pt.notifyAboutProductsInNeedToOfRestock();
 		//db.removeProductFromInventory(2, "384293829823");
 		//db.addProductToInventory(2, p);
-		//db.removeNotificationForProduct("384293829823", 2);
+		//db.removeNotificationForProduct("1000000001", 1);
 		//db.setNotificationForProduct("384293829823", 2);
 		//db.setThresholdForProduct("384293829823", 2, 500);
 	}
