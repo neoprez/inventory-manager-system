@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -50,15 +51,7 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 	
 	
 	
-	Object[][] product /*= {
-		    {"Banana", "24384445485",
-		     "Ecuador", "Manga", "Food", Boolean.FALSE},
-		    {"Apple", "3894745876485",
-		     "USA", "Tupa", "Food", Boolean.FALSE},
-		    {"Cake", "83945745864",
-		     "Bakery", "HP", "Cleaning", Boolean.FALSE},
-
-		}*/;
+	Object[][] product;
 		
 		DefaultTableModel model;
 	//JTable table = new JTable(model);
@@ -168,22 +161,24 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 						rows.add(i);
 						InventoryProduct product = products.get(i);
 						//db.removeProductFromInventory(product.getSupermarketID(), product.getUpc());
-					}
+					} //ffdkdfkv
+					
 				}
+				
 				for(int i = rows.size(); i > 0; i --){
 					int row = rows.get(i-1);
 					
 					model.removeRow(row); 
 					products.remove(row);
 				}
+				
+				
 						//db.removeProductFromInventory(1, "1000000028");
 					// once the person click remove, go through all the products in the list if the checkbox is selected, get product from products array..remove 
 					// product from inventory
 					/*int row = table.getSelectedRow();
 					if(row >= 0){*/
 						
-					
-
 			}
 			else if(e.getActionCommand()==("Cancel")){
 				

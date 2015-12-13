@@ -7,16 +7,20 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
+import com.ims.classes.InventoryProduct;
 import com.ims.components.DBUtilities;
 
 public class resupplyNotificationView extends JFrame implements ActionListener {
@@ -35,6 +39,8 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 	JPanel tablePanel = new JPanel();
 	JPanel windowPanel = new JPanel();
 	
+	ArrayList<InventoryProduct> products;
+	
 	String[] columnNames = {"Name",
             "UPC",
             "Manufacturer",
@@ -43,19 +49,12 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 	
 	
 	
-	Object[][] product = {
-		    {"Banana", "24384445485",
-		     "Ecuador", "Manga", "Food", false},
-		    {"Apple", "3894745876485",
-		     "USA", "Tupa", "Food", false},
-		    {"Cake", "83945745864",
-		     "Bakery", "HP", "Cleaning", false},
-
-		};
+	Object[][] product;
 	
 	
-	DefaultTableModel model = new DefaultTableModel(product, columnNames);
-	JTable table = new JTable(model);
+	DefaultTableModel model;
+	//JTable table = new JTable(model);
+	JTable table;
 
 	
 	public resupplyNotificationView() {
@@ -92,6 +91,53 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 		add(table, BorderLayout.CENTER);
 		table.setBorder(BorderFactory.createLineBorder(Color.black));
 	
+
+		products = db.getProductsOnInventoryForSupermarket(1);
+		
+		product = new Object[products.size()][6];
+		
+		
+		
+		int row= 0;
+		
+		for(InventoryProduct p: products) {
+			product[row][0] = p.getName();
+			product[row][1] = p.getUpc();
+			product[row][2] = p.getManufacturer().getName();
+			product[row][3] = p.getDistributor().getName();
+			product[row][4] = p.getCategory().getName();
+			product[row][5] = false;
+			row++;	
+		}
+		model =  new DefaultTableModel(product, columnNames) {
+			
+			@Override
+			public boolean isCellEditable(int row, int column){
+			
+			return column == 5;
+			
+		}
+			
+
+			//
+		    // This method is used by the JTable to define the default
+		    // renderer or editor for each cell. For example if you have
+		    // a boolean data it will be rendered as a check box. A
+		    // number value is right aligned.
+		    //
+			
+		    @Override
+		    public Class<?> getColumnClass(int columnIndex) {
+		        return product[0][columnIndex].getClass();
+		    }
+		
+		};
+		
+		
+		table = new JTable(model);
+		JScrollPane scrollPane = new JScrollPane(table);
+		add(scrollPane, BorderLayout.CENTER);
+	
 	}
 
 
@@ -99,7 +145,17 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getActionCommand()==("Accept")){
-			db.setNotificationForProduct("10000000000", 1);
+			ArrayList<Integer> rows = new ArrayList<Integer>();
+			for(int i = 0; i <table.getRowCount(); i ++){
+				if((Boolean)table.getValueAt(i, 5)==true) {
+					rows.add(i);
+					InventoryProduct product = products.get(i);
+					db.setNotificationForProduct(product.getUpc(), product.getSupermarketID());
+					// lalal some code
+				}
+				
+			}
+
 		}
 
 		else if(e.getActionCommand()==("Cancel")){
