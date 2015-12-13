@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -40,7 +41,8 @@ public class addProductToInventoryView extends JFrame implements ActionListener 
 	
 	DBUtilities db = new DBUtilities();
 
-	ArrayList<InventoryProduct> addedProducts;
+	ArrayList<InventoryProduct> products;
+	
 	
 	String[] columnNames = {"Name",
 			"UPC",
@@ -120,7 +122,27 @@ public class addProductToInventoryView extends JFrame implements ActionListener 
 			
 		}
 		else if(e.getActionCommand()==("Add")){
-			//db.addProductToInventory(1, null);
+			ArrayList<Integer> rows = new ArrayList<Integer>();
+			for(int i = 0; i <table.getRowCount(); i ++){
+				if((Boolean)table.getValueAt(i, 5)==true) {
+					rows.add(i);
+					InventoryProduct product = products.get(i);
+					//db.addProductToInventory(product.getSupermarketID(), product.getUpc());
+
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "You must select a product");
+					break;
+				}
+			}
+			
+			for(int i = rows.size(); i > 0; i --){
+				int row = rows.get(i-1);
+				// change to add
+				//model.removeRow(row); 
+				//products.remove(row);
+			}
+			
 		}
 		else if(e.getActionCommand()==("Cancel")){
 			

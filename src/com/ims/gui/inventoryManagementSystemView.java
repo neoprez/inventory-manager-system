@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import com.ims.classes.InventoryProduct;
 import com.ims.components.DBUtilities;
 
-@SuppressWarnings("serial")
+
 public class inventoryManagementSystemView extends JPanel{
 	
 	
