@@ -6,19 +6,25 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import com.ims.classes.InventoryProduct;
+import com.ims.components.DBUtilities;
 
 public class restockView extends JFrame implements ActionListener {
 
-
+	DBUtilities db = new DBUtilities();
 
 
 	JButton returnButton = new JButton("Return");
@@ -33,6 +39,7 @@ public class restockView extends JFrame implements ActionListener {
 
 	JLabel restockLabel = new JLabel("Restock");
 
+	JScrollPane scrollPane = new JScrollPane();
 
 	String[] columnNames = {"Name",
 			"UPC",
@@ -42,25 +49,10 @@ public class restockView extends JFrame implements ActionListener {
 
 
 
-	Object[][] product = {
-			{"Banana", "24384445485",
-				"Ecuador", "Manga", "Food", Boolean.FALSE},
-			{"Apple", "3894745876485",
-					"USA", "Tupa", "Food", Boolean.FALSE},
-			{"Cake", "83945745864",
-						"Bakery", "HP", "Cleaning", Boolean.FALSE},
+	Object[][] product;
 
-	};
-
-	ProductsTableModel model = new ProductsTableModel(product, columnNames);
+	DefaultTableModel model = new DefaultTableModel(product, columnNames);
 	JTable table = new JTable(model);
-
-
-	public void restockProduct(){
-		String searchWord = "";
-		searchWord = inventoryManagementSystemView.getSearchField(searchWord);
-
-	}
 
 
 	public restockView(){
@@ -69,9 +61,29 @@ public class restockView extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+	
+		DBUtilities db = new DBUtilities();
+		
+		ArrayList<InventoryProduct> products = db.getProductsOnInventoryForSupermarket(2);
+		
+		product = new Object[products.size()][6];
+		
+		int row= 0;
+		
+		for(InventoryProduct p: products) {
+			product[row][0] = p.getName();
+			product[row][1] = p.getUpc();
+			product[row][2] = p.getManufacturer().getName();
+			product[row][3] = p.getDistributor().getName();
+			product[row][4] = p.getCategory().getName();
+			product[row][5] = false;
+			row++;	
+		}
+		table = new JTable( new DefaultTableModel(product, columnNames) );
+		JScrollPane scrollPane = new JScrollPane(table);
+		add(scrollPane, BorderLayout.CENTER);
+		
 
-
-		add(table, BorderLayout.CENTER);
 		add(searchTextField, BorderLayout.NORTH);
 
 

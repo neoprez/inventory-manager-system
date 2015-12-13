@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,6 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.ims.classes.InventoryProduct;
 import com.ims.components.DBUtilities;
 
 public class addProductToInventoryView extends JFrame implements ActionListener {
@@ -35,29 +37,20 @@ public class addProductToInventoryView extends JFrame implements ActionListener 
 	JPanel buttonPanel = new JPanel();
 
 	JLabel addLabel = new JLabel("Add");
-
 	
 	DBUtilities db = new DBUtilities();
 
+	ArrayList<InventoryProduct> addedProducts;
+	
 	String[] columnNames = {"Name",
 			"UPC",
 			"Manufacturer",
 			"Distributor",
 			"Category", "Check"};
 
+	Object[][] product;
 
-
-	Object[][] product = {
-			{"Banana", "24384445485",
-				"Ecuador", "Manga", "Food", Boolean.FALSE},
-			{"Apple", "3894745876485",
-					"USA", "Tupa", "Food", Boolean.FALSE},
-			{"Cake", "83945745864",
-						"Bakery", "HP", "Cleaning", Boolean.FALSE},
-
-	};
-
-	ProductsTableModel model = new ProductsTableModel(product, columnNames);
+	DefaultTableModel model = new DefaultTableModel(product, columnNames);
 	JTable table = new JTable(model);
 	
 
@@ -67,11 +60,31 @@ public class addProductToInventoryView extends JFrame implements ActionListener 
 		setLayout(new BorderLayout());
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
-
 		add(table, BorderLayout.CENTER);
 		add(searchTextField, BorderLayout.NORTH);
 
+		
+		ArrayList<InventoryProduct> products = db.getProductsOnInventoryForSupermarket(1);
+		
+		product = new Object[products.size()][6];
+		
+		int row= 0;
+		
+		for(InventoryProduct p: products) {
+			product[row][0] = p.getName();
+			product[row][1] = p.getUpc();
+			product[row][2] = p.getManufacturer().getName();
+			product[row][3] = p.getDistributor().getName();
+			product[row][4] = p.getCategory().getName();
+			product[row][5] = p.getCount();
+			row++;	
+		}
+
+		setBackground(Color.LIGHT_GRAY);
+		setLayout(new BorderLayout(5,10));
+
+		JScrollPane scrollPane = new JScrollPane(table);
+		add(scrollPane, BorderLayout.CENTER);
 
 		add(buttonPanel, BorderLayout.WEST);
 
@@ -107,7 +120,7 @@ public class addProductToInventoryView extends JFrame implements ActionListener 
 			
 		}
 		else if(e.getActionCommand()==("Add")){
-			db.addProductToInventory(1, null);
+			//db.addProductToInventory(1, null);
 		}
 		else if(e.getActionCommand()==("Cancel")){
 			

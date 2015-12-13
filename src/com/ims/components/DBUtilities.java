@@ -166,8 +166,7 @@ public class DBUtilities {
 
 	public void removeProductFromInventory(int supermarketId, String productUpc) {
 		Connection con = this.getConnection();
-
-
+		
 		try{
 			String query = "DELETE FROM " + IMSTable.SUPERMARKETS_STOCK
 					+ "WHERE product_upc=? and supermarket_id=?";

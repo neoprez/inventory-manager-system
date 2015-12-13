@@ -31,6 +31,10 @@ public class DBUtilitiesDemo {
 		for(Product product: products) {
 			System.out.println(product);
 		}*/
+		
+		//db.removeProductFromInventory(1, "1000000001");
+		//db.removeNotificationForProduct("384293829823", 1);
+
 		/*ArrayList<InventoryProduct> products = db.getProductsToBeRestocked();
 		for(InventoryProduct product : products) {
 			System.out.println(product);
@@ -43,6 +47,7 @@ public class DBUtilitiesDemo {
 		//db.removeProductFromInventory(2, "384293829823");
 		//db.addProductToInventory(2, p);
 		//db.removeNotificationForProduct("1000000001", 1);
+
 		//db.setNotificationForProduct("384293829823", 2);
 		//db.setThresholdForProduct("384293829823", 2, 500);
 	}

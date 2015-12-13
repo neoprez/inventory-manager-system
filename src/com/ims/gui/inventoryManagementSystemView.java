@@ -7,10 +7,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import com.ims.classes.InventoryProduct;
 import com.ims.components.DBUtilities;
 
+@SuppressWarnings("serial")
 public class inventoryManagementSystemView extends JPanel{
 	
 	
@@ -18,13 +20,7 @@ public class inventoryManagementSystemView extends JPanel{
 	JScrollPane scrollPane = new JScrollPane();
 	DBUtilities db = new DBUtilities();
 	
-	
-	public static String getSearchField(String searchWord){
-		
-		searchWord = searchField.getText();
-		
-		return searchWord;
-	}
+	//ArrayList<InventoryProduct> products;
 	
 	String[] columnNames = {"Name",
             "UPC",
@@ -34,33 +30,18 @@ public class inventoryManagementSystemView extends JPanel{
 	
 	
 	
-	Object[][] product;/* = {
-		    {"Banana", "24384445485",
-		     "Ecuador", "Manga", "Food", "5"},
-		    {"Apple", "3894745876485",
-		     "USA", "Tupa", "Food", "4"},
-		    {"Cake", "83945745864",
-		     "Bakery", "HP", "Cleaning", "23"},
-		};*/
+	Object[][] product;
 	
 	
+
 	JTable table;// = new JTable( new ProductsTableModel(product, columnNames) );
 	
 
 	
 	public inventoryManagementSystemView(){
-		getProductsForTable(1);
-		table = new JTable( new ProductsTableModel(product, columnNames) );
-		setBackground(Color.LIGHT_GRAY);
-		setLayout(new BorderLayout(5,10));
-		add(searchField, BorderLayout.NORTH);
-		//add(table, BorderLayout.CENTER);
-		JScrollPane scrollPane = new JScrollPane(table);
-		add(scrollPane,  BorderLayout.CENTER);
-	}
-	
-	public void getProductsForTable(int supermarketId) {
-		ArrayList<InventoryProduct> products = db.getProductsOnInventoryForSupermarket(supermarketId);
+		
+		ArrayList<InventoryProduct> products = db.getProductsOnInventoryForSupermarket(1);
+		
 		
 		product = new Object[products.size()][6];
 		
@@ -75,5 +56,13 @@ public class inventoryManagementSystemView extends JPanel{
 			product[row][5] = p.getCount();
 			row++;	
 		}
+		
+		table = new JTable( new DefaultTableModel(product, columnNames) );
+		setBackground(Color.LIGHT_GRAY);
+		setLayout(new BorderLayout(5,10));
+		add(searchField, BorderLayout.NORTH);
+		JScrollPane scrollPane = new JScrollPane(table);
+		add(scrollPane, BorderLayout.CENTER);
+
 	}
 }
