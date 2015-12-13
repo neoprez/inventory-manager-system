@@ -7,6 +7,7 @@ import com.ims.classes.CustomerOrder;
 import com.ims.classes.ExchangeOrder;
 import com.ims.classes.Product;
 import com.ims.classes.ReturnOrder;
+import com.ims.classes.Supermarket;
 
 public class CashierMachine {
 	private Cashier cashier;

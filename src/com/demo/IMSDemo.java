@@ -5,6 +5,7 @@ import com.ims.classes.Category;
 import com.ims.classes.Order;
 import com.ims.classes.Product;
 import com.ims.classes.ReturnOrder;
+import com.ims.classes.Supermarket;
 
 public class IMSDemo {
 	private Order[] orders;
