@@ -87,10 +87,6 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 		buttonPanel.add(returnButton);
 		returnButton.setPreferredSize(new Dimension(200, 150));
 		returnButton.addActionListener(this);
-		
-		add(table, BorderLayout.CENTER);
-		table.setBorder(BorderFactory.createLineBorder(Color.black));
-	
 
 		products = db.getProductsOnInventoryForSupermarket(1);
 		
@@ -150,16 +146,26 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 				if((Boolean)table.getValueAt(i, 5)==true) {
 					rows.add(i);
 					InventoryProduct product = products.get(i);
-					db.setNotificationForProduct(product.getUpc(), product.getSupermarketID());
-					// lalal some code
+					//db.setNotificationForProduct(product.getUpc(), );
+				}else{
+					JOptionPane.showMessageDialog(null, "You must select a product");
+					break;
 				}
-				
 			}
-
 		}
 
 		else if(e.getActionCommand()==("Cancel")){
-			
+				ArrayList<Integer> rows = new ArrayList<Integer>();
+				for(int i = 0; i <table.getRowCount(); i ++){
+					if((Boolean)table.getValueAt(i, 5)==true) {
+						rows.add(i);
+						InventoryProduct product = products.get(i);
+						//db.removeNotificationForProduct(product.getUpc(), product.getSupermarketID());
+					}else{
+						JOptionPane.showMessageDialog(null, "You must select a product");
+						break;
+					}
+				}
 		}
 		else if(e.getActionCommand()==("Search")){
 			// some search() method will go here

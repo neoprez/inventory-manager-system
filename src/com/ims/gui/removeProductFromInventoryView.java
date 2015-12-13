@@ -161,8 +161,11 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 						rows.add(i);
 						InventoryProduct product = products.get(i);
 						//db.removeProductFromInventory(product.getSupermarketID(), product.getUpc());
-					} //ffdkdfkv
-					
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "You must select a product");
+						break;
+					}
 				}
 				
 				for(int i = rows.size(); i > 0; i --){
