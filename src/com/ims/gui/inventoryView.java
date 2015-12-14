@@ -19,6 +19,7 @@ public class inventoryView extends JPanel implements ActionListener {
 	JButton restockInventoryButton = new JButton("Restock Inventory");
 	JButton setResupplyNotification = new JButton("Set Resupply Notification");
 	JButton resetButton = new JButton("Reset");
+	JButton signOffButton = new JButton("Sign Off");
 
 	public inventoryView() {
 
@@ -51,8 +52,9 @@ public class inventoryView extends JPanel implements ActionListener {
 		setResupplyNotification.setPreferredSize(new Dimension(400, 200));
 		setResupplyNotification.addActionListener(this);
 
-
-
+		add(signOffButton);
+		signOffButton.setPreferredSize(new Dimension(400, 200));
+		signOffButton.addActionListener(this);
 	}
 
 
@@ -89,7 +91,7 @@ public class inventoryView extends JPanel implements ActionListener {
 					"Would you like to set an alert to be notified if you need to restock your inventory?",
 					"Title",
 					JOptionPane.YES_NO_OPTION,
-					JOptionPane.ERROR_MESSAGE);
+					JOptionPane.QUESTION_MESSAGE);
 			if(answer == 0){
 				resupplyNotificationView frame = new resupplyNotificationView();// you can have your own parameters of course	
 				frame.setVisible(true);
@@ -99,6 +101,9 @@ public class inventoryView extends JPanel implements ActionListener {
 
 			}
 
+		}
+		else if(e.getActionCommand()==("Sign Off")){ 
+			System.exit(0);
 		}
 	}
 

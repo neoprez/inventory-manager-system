@@ -20,8 +20,6 @@ public class inventoryManagementSystemView extends JPanel{
 	JScrollPane scrollPane = new JScrollPane();
 	DBUtilities db = new DBUtilities();
 	
-	//ArrayList<InventoryProduct> products;
-	
 	String[] columnNames = {"Name",
             "UPC",
             "Manufacturer",
@@ -34,7 +32,7 @@ public class inventoryManagementSystemView extends JPanel{
 	
 	
 
-	JTable table;// = new JTable( new ProductsTableModel(product, columnNames) );
+	JTable table;
 	
 
 	

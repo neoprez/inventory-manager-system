@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,6 +27,8 @@ import com.ims.components.DBUtilities;
 public class resupplyNotificationView extends JFrame implements ActionListener {
 
 	DBUtilities db = new DBUtilities();
+
+	ArrayList<InventoryProduct> products;
 	
 	JButton searchButton = new JButton("Search");
 	JButton acceptButton = new JButton("Accept");
@@ -36,10 +39,9 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 	JTextField searchTextField = new JTextField(20);
 	JTextArea productArea = new JTextArea();
 	JPanel buttonPanel = new JPanel();
-	JPanel tablePanel = new JPanel();
-	JPanel windowPanel = new JPanel();
 	
-	ArrayList<InventoryProduct> products;
+	JLabel restockLabel = new JLabel("Resupply Notification");
+	
 	
 	String[] columnNames = {"Name",
             "UPC",
@@ -53,7 +55,6 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 	
 	
 	DefaultTableModel model;
-	//JTable table = new JTable(model);
 	JTable table;
 
 	
@@ -64,9 +65,14 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
+		add(searchTextField, BorderLayout.NORTH);
+		
 		add(buttonPanel, BorderLayout.EAST);
 		buttonPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		buttonPanel.setLayout(new GridLayout(0,1));
+		
+		buttonPanel.add(restockLabel);
+		restockLabel.setBorder(BorderFactory.createEmptyBorder(0, 140, 0, 0));
 		
 		buttonPanel.add(searchButton);
 		searchButton.setPreferredSize(new Dimension(200, 150));
@@ -83,16 +89,10 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 		buttonPanel.add(resetButton);
 		resetButton.setPreferredSize(new Dimension(400, 200));
 		resetButton.addActionListener(this);
-		
-		buttonPanel.add(returnButton);
-		returnButton.setPreferredSize(new Dimension(200, 150));
-		returnButton.addActionListener(this);
 
 		products = db.getProductsOnInventoryForSupermarket(1);
 		
 		product = new Object[products.size()][6];
-		
-		
 		
 		int row= 0;
 		
@@ -102,9 +102,10 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 			product[row][2] = p.getManufacturer().getName();
 			product[row][3] = p.getDistributor().getName();
 			product[row][4] = p.getCategory().getName();
-			product[row][5] = false;
+			product[row][5] = p.hasNotification();
 			row++;	
 		}
+		
 		model =  new DefaultTableModel(product, columnNames) {
 			
 			@Override
@@ -143,41 +144,43 @@ public class resupplyNotificationView extends JFrame implements ActionListener {
 		if(e.getActionCommand()==("Accept")){
 			ArrayList<Integer> rows = new ArrayList<Integer>();
 			for(int i = 0; i <table.getRowCount(); i ++){
+				InventoryProduct product = products.get(i);
 				if((Boolean)table.getValueAt(i, 5)==true) {
 					rows.add(i);
-					InventoryProduct product = products.get(i);
 					String count = JOptionPane.showInputDialog(null, "Please enter the amount for the threshold");
 					int thresholdNumber = Integer.parseInt(count);
 					db.setThresholdForProduct(product.getUpc(), product.getSupermarketID(), thresholdNumber);
-					//db.setNotificationForProduct(product.getUpc(), );
-				}else{
+					db.setNotificationForProduct(product.getUpc(), product.getSupermarketID() );
+				}/*
+				else{
+					// DO IF USER CLICKS ACCEPT AND NOTHING CHEECKED
+					if((Boolean)table.getValueAt(i, 5)==false){
 					JOptionPane.showMessageDialog(null, "You must select a product");
-					break;
-				}
+					String count = JOptionPane.showInputDialog(null, "Please enter the amount for the threshold");
+					int thresholdNumber = Integer.parseInt(count);
+					db.setThresholdForProduct(product.getUpc(), product.getSupermarketID(), thresholdNumber);
+					db.setNotificationForProduct(product.getUpc(), product.getSupermarketID() );
+					}
+				}*/
 			}
 		}
-
 		else if(e.getActionCommand()==("Cancel")){
 				ArrayList<Integer> rows = new ArrayList<Integer>();
 				for(int i = 0; i <table.getRowCount(); i ++){
-					if((Boolean)table.getValueAt(i, 5)==true) {
+					if((Boolean)table.getValueAt(i, 5)==true && e.getActionCommand()!=("Accept")){
 						rows.add(i);
 						InventoryProduct product = products.get(i);
-						//db.removeNotificationForProduct(product.getUpc(), product.getSupermarketID());
-					}else{
-						JOptionPane.showMessageDialog(null, "You must select a product");
-						break;
+						db.removeNotificationForProduct(product.getUpc(), product.getSupermarketID());
+						super.dispose();
 					}
 				}
+				super.dispose();
 		}
 		else if(e.getActionCommand()==("Search")){
 			// some search() method will go here
 		}
-		else if(e.getActionCommand()==("Return")){
-			super.dispose();
-		}
-		else if(e.getActionCommand()==("Reset")){ 
-			inventoryManagementSystemView.searchField.setText("");
+		else if(e.getActionCommand()==("Reset Field")){ 
+			searchTextField.setText("");
 		}
 	}
 	

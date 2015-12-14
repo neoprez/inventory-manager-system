@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -27,7 +28,8 @@ public class restockView extends JFrame implements ActionListener {
 	DBUtilities db = new DBUtilities();
 
 
-	JButton returnButton = new JButton("Return");
+	ArrayList<InventoryProduct> products;
+	
 	JButton searchButton = new JButton("Search");
 	JButton restockButton = new JButton("Restock Inventory");
 	JButton cancelButton = new JButton("Cancel");
@@ -37,7 +39,7 @@ public class restockView extends JFrame implements ActionListener {
 	JTextArea productArea = new JTextArea();
 	JPanel buttonPanel = new JPanel();
 
-	JLabel restockLabel = new JLabel("Restock");
+	JLabel restockLabel = new JLabel("Restock Inventory");
 
 	JScrollPane scrollPane = new JScrollPane();
 
@@ -62,9 +64,39 @@ public class restockView extends JFrame implements ActionListener {
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	
-		DBUtilities db = new DBUtilities();
+
+
+		add(searchTextField, BorderLayout.NORTH);
+
+
+		add(buttonPanel, BorderLayout.WEST);
+
+		buttonPanel.setLayout(new GridLayout(0,1));
+
+		buttonPanel.add(restockLabel);
+		restockLabel.setBorder(BorderFactory.createEmptyBorder(0, 140, 0, 0));
 		
-		ArrayList<InventoryProduct> products = db.getProductsOnInventoryForSupermarket(2);
+		
+		buttonPanel.add(searchButton);
+		searchButton.setPreferredSize(new Dimension(400, 200));
+		searchButton.addActionListener(this);
+		
+		
+		buttonPanel.add(restockButton);
+		restockButton.setPreferredSize(new Dimension(400, 200));
+		restockButton.addActionListener(this);
+		
+		buttonPanel.add(cancelButton);
+		cancelButton.setPreferredSize(new Dimension(400, 200));
+		cancelButton.addActionListener(this);
+		
+		buttonPanel.add(resetButton);
+		resetButton.setPreferredSize(new Dimension(400, 200));
+		resetButton.addActionListener(this);
+		
+
+		products = db.getProductsOnInventoryForSupermarket(1);
+		
 		
 		product = new Object[products.size()][6];
 		
@@ -79,53 +111,64 @@ public class restockView extends JFrame implements ActionListener {
 			product[row][5] = false;
 			row++;	
 		}
-		table = new JTable( new DefaultTableModel(product, columnNames) );
+model =  new DefaultTableModel(product, columnNames) {
+			
+			@Override
+			public boolean isCellEditable(int row, int column){
+			
+			return column == 5;
+			
+		}
+			
+
+			//
+		    // This method is used by the JTable to define the default
+		    // renderer or editor for each cell. For example if you have
+		    // a boolean data it will be rendered as a check box. A
+		    // number value is right aligned.
+		    //
+			
+		    @Override
+		    public Class<?> getColumnClass(int columnIndex) {
+		        return product[0][columnIndex].getClass();
+		    }
+		
+		};
+		
+		
+		table = new JTable(model);
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane, BorderLayout.CENTER);
-		
-
-		add(searchTextField, BorderLayout.NORTH);
-
-
-		add(buttonPanel, BorderLayout.WEST);
-
-		buttonPanel.setLayout(new GridLayout(0,1));
-
-		buttonPanel.add(restockLabel);
-		restockLabel.setBorder(BorderFactory.createEmptyBorder(0, 165, 0, 0));
-
-		buttonPanel.add(searchButton);
-		searchButton.setPreferredSize(new Dimension(400, 200));
-
-		buttonPanel.add(restockButton);
-		restockButton.setPreferredSize(new Dimension(400, 200));
-
-		buttonPanel.add(cancelButton);
-		cancelButton.setPreferredSize(new Dimension(400, 200));
-
-		buttonPanel.add(returnButton);
-		returnButton.setPreferredSize(new Dimension(400, 200));
-		returnButton.addActionListener(this);
-
+	
+	
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getActionCommand()==("Return")){
-			super.dispose();
-		}
-		else if(e.getActionCommand()==("Restock Inventory")){
-			// Some restock() method
+		
+		if(e.getActionCommand()==("Restock Inventory")){
+			ArrayList<Integer> rows = new ArrayList<Integer>();
+			for(int i = 0; i <table.getRowCount(); i ++){
+				if((Boolean)table.getValueAt(i, 5)==true) {
+					rows.add(i);
+					InventoryProduct product = products.get(i);
+					String amount = JOptionPane.showInputDialog(null, "Please enter how much you would like to add");
+					int amountToAdd = Integer.parseInt(amount);
+					db.restockProductForSupermarket(product.getSupermarketID(), product.getUpc(), amountToAdd);
+					} 
+				}
 		}
 		else if(e.getActionCommand()==("Cancel")){
-			
+			super.dispose();
 		}
 		else if(e.getActionCommand()==("Search")){
 			// some search() method will go here
 		}
-		else if(e.getActionCommand()==("Reset")){ 
-			inventoryManagementSystemView.searchField.setText("");
+		else if(e.getActionCommand()==("Reset Field")){ 
+			searchTextField.setText("");
 		}
 	}
-}
+}	
+		
+
