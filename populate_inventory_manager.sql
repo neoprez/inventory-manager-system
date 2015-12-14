@@ -52,19 +52,19 @@ INSERT INTO employees (first_name, last_name, store_id, position, email_address)
 
 /*supermarkets_stock data*/
 
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('035200264013', 1, 18,  true  , 1, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('011111065925', 2, 10,  true  , 2, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('023923330139', 3, 12,  true  , 3, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('208528800007', 4, 18,  true  , 4, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('759283100036', 5, 13,  true  , 5, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('074170388732', 1, 18,  true  , 1, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('070177154004', 2, 21,  true  , 2, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('051600080015', 3, 11,  true  , 3, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('019600923015', 4, 22,  true  , 4, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('688267141676', 5, 11,  true  , 5, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('657622604842', 1, 10,  true  , 1, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('074676640211', 2, 12,  true  , 2, NOW());
-INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('603084234561', 3, 24,  true  , 3, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('035200264013', 1, 18,  false , 1, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('011111065925', 2, 10,  false , 2, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('023923330139', 3, 12,  false , 3, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('208528800007', 4, 18,  false , 4, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('759283100036', 5, 13,  false , 5, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('074170388732', 1, 18,  false , 1, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('070177154004', 2, 21,  false , 2, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('051600080015', 3, 11,  false , 3, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('019600923015', 4, 22,  false , 4, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('688267141676', 5, 11,  false , 5, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('657622604842', 1, 10,  false , 1, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('074676640211', 2, 12,  false , 2, NOW());
+INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('603084234561', 3, 24,  false  , 3, NOW());
 INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('041167300121', 4, 17,  false , 0, NOW());
 INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('079400847201', 5, 18,  false , 0, NOW());
 INSERT INTO supermarkets_stock (product_upc, supermarket_id, product_count, has_notification, threshold_count, date_last_updated) VALUES('792850014008', 1, 11,  false , 0, NOW());
