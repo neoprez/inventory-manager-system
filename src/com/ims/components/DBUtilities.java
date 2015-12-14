@@ -245,7 +245,7 @@ public class DBUtilities {
 			success = false;
 		} else {
 			String query	= "UPDATE " + IMSTable.SUPERMARKETS_STOCK + " SET product_count" + 
-					"=product_count-? WHERE product_upc= ? and supermarket_id=?";
+					"=MAX(product_count-?,0) WHERE product_upc= ? and supermarket_id=?";
 			Connection con 	= this.getConnection();
 
 			try {

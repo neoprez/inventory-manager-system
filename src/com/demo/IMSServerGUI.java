@@ -1,4 +1,4 @@
-package com.ims.gui;
+package com.demo;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
