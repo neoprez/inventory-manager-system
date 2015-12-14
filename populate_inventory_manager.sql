@@ -44,10 +44,10 @@ INSERT INTO supermarkets (name, address, zipcode, state, country, store_manager_
 
 /* employees data */
 
-INSERT INTO employees (first_name, last_name, store_id, position, email_address) VALUES('Gerald ', 'Rose',  1 , 'manager', 'geraldrose@pioneer.com');
-INSERT INTO employees (first_name, last_name, store_id, position, email_address) VALUES('Thomas', 'Marshall',  2 , 'manager', 'thomasmarshall@pioneer.com');
-INSERT INTO employees (first_name, last_name, store_id, position, email_address) VALUES('Hedie', 'Warburton',  3 , 'manager', 'hediewarburton@pioneer.com');
-INSERT INTO employees (first_name, last_name, store_id, position, email_address) VALUES('Joseph', 'Goldberg',  4 , 'manager', 'josephgoldberg@pioneer.com');
+INSERT INTO employees (first_name, last_name, store_id, position, email_address) VALUES('Larry', 'Blanco',  1 , 'manager', 'larry.blanco@lc.cuny.edu');
+INSERT INTO employees (first_name, last_name, store_id, position, email_address) VALUES('Rodny', 'Perez',  2 , 'manager', 'rodnyeperez@gmail.com');
+INSERT INTO employees (first_name, last_name, store_id, position, email_address) VALUES('Gennaro', 'Pesantes',  3 , 'manager', 'gennaropesantes@gmail.com');
+INSERT INTO employees (first_name, last_name, store_id, position, email_address) VALUES('Javier', 'Lopez',  4 , 'manager', 'javier.alonsolopez@lehman.cuny.edu');
 INSERT INTO employees (first_name, last_name, store_id, position, email_address) VALUES('Mildred', 'Dennison',  5 , 'manager', 'mildreddennison@pioneer.com');
 
 /*supermarkets_stock data*/
