@@ -171,7 +171,7 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 				for(int i = rows.size(); i > 0; i --){
 					int row = rows.get(i-1);
 					
-					model.removeRow(row); 
+					model.removeRow(row);
 					products.remove(row);
 				}
 				

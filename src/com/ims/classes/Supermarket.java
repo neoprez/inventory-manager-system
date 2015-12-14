@@ -11,7 +11,7 @@ public class Supermarket {
 	private Manager						manager;
 	private ArrayList<InventoryProduct> products;
 	private int 						id;
-	private DBUtilities					db;
+	private DBUtilities					db = new DBUtilities();
 	
 	public Supermarket(int id) {
 		this.id 			= id;
@@ -51,5 +51,9 @@ public class Supermarket {
 	
 	public void addProduct(InventoryProduct inventoryProduct) {
 		products.add(inventoryProduct);
+	}
+	
+	public ArrayList<CashierMachine> getCashierMachines() {
+		return this.cashierMachines;
 	}
 }

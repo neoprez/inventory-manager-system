@@ -1,7 +1,6 @@
 package com.ims.gui;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 
 import com.ims.components.IMSServer;
 
@@ -20,7 +22,7 @@ public class IMSServerGUI extends JFrame implements ActionListener {
 	private JPanel mainPanel;
 	private JButton closeBtn;
 	private final JLabel theLabel = new JLabel("Inventory Manager System");
-	
+
 	public IMSServerGUI() {
 		startBtn = new JButton(new ImageIcon("icons/play-black.png"));
 		startBtn.setActionCommand("start");
