@@ -90,4 +90,12 @@ public class ProductsTracker implements Runnable {
 			}
 		}
 	}
+	
+	public void setUpdateFrequency(long updateFrequency) {
+		this.updateFrequency = updateFrequency;
+	}
+	
+	public long getUpdateFrequency() {
+		return this.updateFrequency;
+	}
 }
