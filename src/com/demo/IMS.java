@@ -1,7 +1,10 @@
-package com.ims.gui;
+package com.demo;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+
+import com.ims.gui.inventoryManagementSystemView;
+import com.ims.gui.inventoryView;
 
 
 
