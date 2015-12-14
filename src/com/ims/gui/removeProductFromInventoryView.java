@@ -27,7 +27,6 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 
 	DBUtilities db = new DBUtilities();
 
-	JButton returnButton = new JButton("Return");
 	JButton searchButton = new JButton("Search");
 	JButton removeButton = new JButton("Remove");
 	JButton cancelButton = new JButton("Cancel");
@@ -39,7 +38,7 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 	JTextArea productArea = new JTextArea();
 	JPanel buttonPanel = new JPanel();
 
-	JLabel removeLabel = new JLabel("Remove");
+	JLabel removeLabel = new JLabel("Remove Product from Inventory");
 
 	ArrayList<InventoryProduct> products;
 	
@@ -122,7 +121,7 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 		buttonPanel.setLayout(new GridLayout(0,1));
 		
 		buttonPanel.add(removeLabel);
-		removeLabel.setBorder(BorderFactory.createEmptyBorder(0, 165, 0, 0));
+		removeLabel.setBorder(BorderFactory.createEmptyBorder(0, 120, 0, 0));
 		
 		buttonPanel.add(searchButton);
 		searchButton.setPreferredSize(new Dimension(400, 200));
@@ -140,31 +139,19 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 		buttonPanel.add(resetButton);
 		resetButton.setPreferredSize(new Dimension(200, 400));
 		resetButton.addActionListener(this);
-		
-		buttonPanel.add(returnButton);
-		returnButton.setPreferredSize(new Dimension(400, 200));
-		returnButton.addActionListener(this);
 	
 }
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			if(e.getActionCommand()==("Return")){
-				super.dispose();
-				
-			}
-			else if(e.getActionCommand()==("Remove")){
+			if(e.getActionCommand()==("Remove")){
 				ArrayList<Integer> rows = new ArrayList<Integer>();
 				for(int i = 0; i <table.getRowCount(); i ++){
 					if((Boolean)table.getValueAt(i, 5)==true) {
 						rows.add(i);
 						InventoryProduct product = products.get(i);
-						//db.removeProductFromInventory(product.getSupermarketID(), product.getUpc());
-					}
-					else{
-						JOptionPane.showMessageDialog(null, "You must select a product");
-						break;
+						db.removeProductFromInventory(product.getSupermarketID(), product.getUpc());
 					}
 				}
 				
@@ -174,23 +161,16 @@ public class removeProductFromInventoryView extends JFrame implements ActionList
 					model.removeRow(row); 
 					products.remove(row);
 				}
-				
-				
-						//db.removeProductFromInventory(1, "1000000028");
-					// once the person click remove, go through all the products in the list if the checkbox is selected, get product from products array..remove 
-					// product from inventory
-					/*int row = table.getSelectedRow();
-					if(row >= 0){*/
 						
 			}
 			else if(e.getActionCommand()==("Cancel")){
-				
+				super.dispose();
 			}
 			else if(e.getActionCommand()==("Search")){
 				// some search() method will go here
 			}
-			else if(e.getActionCommand()==("Reset")){ 
-				inventoryManagementSystemView.searchField.setText("");
+			else if(e.getActionCommand()==("Reset Field")){ 
+				searchTextField.setText("");
 			}
 		}
 }

@@ -3,9 +3,15 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.util.ArrayList;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import com.ims.classes.InventoryProduct;
+import com.ims.components.DBUtilities;
+
 import java.awt.print.*;
 
 /*
@@ -40,13 +46,16 @@ import java.awt.print.*;
  */
 
 public class generateReportView extends JFrame implements Printable, ActionListener {
-		JButton returnButton = new JButton("Return");
+		JButton cancelButton = new JButton("Cancel");
 		JButton printButton = new JButton("Print");
 		JButton resetButton = new JButton("Reset Field");
 		JTextField searchField = new JTextField();
 		JPanel buttonPanel = new JPanel();
-
 		JLabel printLabel = new JLabel("Print Report");
+		
+		JScrollPane scrollPane = new JScrollPane();
+		DBUtilities db = new DBUtilities();
+		
 		
 		String[] columnNames = {"Name",
 	            "UPC",
@@ -56,15 +65,7 @@ public class generateReportView extends JFrame implements Printable, ActionListe
 		
 		
 		
-		Object[][] product = {
-			    {"Banana", "24384445485",
-			     "Ecuador", "Manga", "Food", "5"},
-			    {"Apple", "3894745876485",
-			     "USA", "Tupa", "Food", "4"},
-			    {"Cake", "83945745864",
-			     "Bakery", "HP", "Cleaning", "23"},
-			};
-		
+		Object[][] product;
 		
 		JTable table = new JTable( new DefaultTableModel(product, columnNames) );
 		
@@ -88,20 +89,37 @@ public class generateReportView extends JFrame implements Printable, ActionListe
 		printButton.setPreferredSize(new Dimension(400, 200));
 		printButton.addActionListener(this);
 		
+		buttonPanel.add(cancelButton);
+		cancelButton.setPreferredSize(new Dimension(400, 200));
+		cancelButton.addActionListener(this);
+		
 		buttonPanel.add(resetButton);
 		resetButton.setPreferredSize(new Dimension(400, 200));
 		resetButton.addActionListener(this);
 		
-		buttonPanel.add(returnButton);
-		returnButton.setPreferredSize(new Dimension(400, 200));
-		returnButton.addActionListener(this);
+	
+		ArrayList<InventoryProduct> products = db.getProductsOnInventoryForSupermarket(1);
 		
 		
+		product = new Object[products.size()][6];
+		
+		int row= 0;
+		
+		for(InventoryProduct p: products) {
+			product[row][0] = p.getName();
+			product[row][1] = p.getUpc();
+			product[row][2] = p.getManufacturer().getName();
+			product[row][3] = p.getDistributor().getName();
+			product[row][4] = p.getCategory().getName();
+			product[row][5] = p.getCount();
+			row++;	
+		}
 		
 		
-		
-	    add(table, BorderLayout.CENTER);
-		
+		table = new JTable( new DefaultTableModel(product, columnNames) );
+		JScrollPane scrollPane = new JScrollPane(table);
+		add(scrollPane, BorderLayout.CENTER);
+
 		}
 	 
 	    public int print(Graphics g, PageFormat pf, int page) throws
@@ -145,18 +163,14 @@ public class generateReportView extends JFrame implements Printable, ActionListe
 	        					null, JOptionPane.WARNING_MESSAGE);
 	        		    
 	        		}
-	        	/*UIManager.put("swing.boldMetal", Boolean.FALSE);
-	     	    this.addWindowListener(new WindowAdapter() {
-	     	    public void windowClosing(WindowEvent e) {System.exit(0);}
-	     	    });*/
 	     	   
 	         }
-	         else if(e.getActionCommand()==("Return")){
+	         else if(e.getActionCommand()==("Cancel")){
 					super.dispose();
 				}
 	         
-	         else if(e.getActionCommand()==("Reset")){ 
-	 			inventoryManagementSystemView.searchField.setText("");
+	         else if(e.getActionCommand()==("Reset Field")){ 
+	 			searchField.setText("");
 	 		}
 	        	 
 	    }

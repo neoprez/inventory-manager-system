@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,10 +23,17 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import com.ims.classes.InventoryProduct;
+import com.ims.classes.Product;
 import com.ims.components.DBUtilities;
 
 public class addProductToInventoryView extends JFrame implements ActionListener {
 
+
+	DBUtilities db = new DBUtilities();
+
+	ArrayList<Product> products;
+	
+	
 	JButton returnButton = new JButton("Return");
 	JButton searchButton = new JButton("Search");
 	JButton addButton = new JButton("Add");
@@ -37,23 +45,21 @@ public class addProductToInventoryView extends JFrame implements ActionListener 
 	JTextArea productArea = new JTextArea();
 	JPanel buttonPanel = new JPanel();
 
-	JLabel addLabel = new JLabel("Add");
+	JLabel addLabel = new JLabel("Add Product to Inventory");
 	
-	DBUtilities db = new DBUtilities();
-
-	ArrayList<InventoryProduct> products;
 	
 	
 	String[] columnNames = {"Name",
 			"UPC",
 			"Manufacturer",
 			"Distributor",
-			"Category", "Check"};
+			"Category", "Count", "Check" };
 
 	Object[][] product;
 
-	DefaultTableModel model = new DefaultTableModel(product, columnNames);
-	JTable table = new JTable(model);
+
+	DefaultTableModel model;
+	JTable table;
 	
 
 	public addProductToInventoryView(){
@@ -62,96 +68,120 @@ public class addProductToInventoryView extends JFrame implements ActionListener 
 		setLayout(new BorderLayout());
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		add(table, BorderLayout.CENTER);
-		add(searchTextField, BorderLayout.NORTH);
-
-		
-		ArrayList<InventoryProduct> products = db.getProductsOnInventoryForSupermarket(1);
-		
-		product = new Object[products.size()][6];
-		
-		int row= 0;
-		
-		for(InventoryProduct p: products) {
-			product[row][0] = p.getName();
-			product[row][1] = p.getUpc();
-			product[row][2] = p.getManufacturer().getName();
-			product[row][3] = p.getDistributor().getName();
-			product[row][4] = p.getCategory().getName();
-			product[row][5] = p.getCount();
-			row++;	
-		}
 
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(new BorderLayout(5,10));
 
-		JScrollPane scrollPane = new JScrollPane(table);
-		add(scrollPane, BorderLayout.CENTER);
-
+		add(searchTextField, BorderLayout.NORTH);
+		
 		add(buttonPanel, BorderLayout.WEST);
 
 		buttonPanel.setLayout(new GridLayout(0,1));
 
 		buttonPanel.add(addLabel);
-		addLabel.setBorder(BorderFactory.createEmptyBorder(0, 165, 0, 0));
+		addLabel.setBorder(BorderFactory.createEmptyBorder(0, 120, 0, 0));
 		
 		buttonPanel.add(searchButton);
 		searchButton.setPreferredSize(new Dimension(400, 200));
-
+		searchButton.addActionListener(this);
+		
 		buttonPanel.add(addButton);
 		addButton.setPreferredSize(new Dimension(400, 200));
-
+		addButton.addActionListener(this);
+		
 		buttonPanel.add(cancelButton);
 		cancelButton.setPreferredSize(new Dimension(400, 200));
-
+		cancelButton.addActionListener(this);
+		
 		buttonPanel.add(resetButton);
 		resetButton.setPreferredSize(new Dimension(400, 200));
 		resetButton.addActionListener(this);
 		
-		buttonPanel.add(returnButton);
-		returnButton.setPreferredSize(new Dimension(400, 200));
-		returnButton.addActionListener(this);
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if(e.getActionCommand()==("Return")){
-			super.dispose();
-			
-		}
-		else if(e.getActionCommand()==("Add")){
-			ArrayList<Integer> rows = new ArrayList<Integer>();
-			for(int i = 0; i <table.getRowCount(); i ++){
-				if((Boolean)table.getValueAt(i, 5)==true) {
-					rows.add(i);
-					InventoryProduct product = products.get(i);
-					//db.addProductToInventory(product.getSupermarketID(), product.getUpc());
-
-				}
-				else{
-					JOptionPane.showMessageDialog(null, "You must select a product");
+		products = db.getAllProducts();
+		ArrayList<InventoryProduct> productsInInventory = db.getProductsOnInventoryForSupermarket(1);
+		
+		product = new Object[products.size()][7];
+		
+		int row= 0;
+		
+		for(Product p: products) {
+			product[row][0] = p.getName();
+			product[row][1] = p.getUpc();
+			product[row][2] = p.getManufacturer().getName();
+			product[row][3] = p.getDistributor().getName();
+			product[row][4] = p.getCategory().getName();
+			boolean isInInventory = false;
+			for(int i = 0; i < productsInInventory.size(); i ++){
+				if (productsInInventory.get(i).getUpc().equals(p.getUpc())){
+					isInInventory = true;
+					product[row][5] = productsInInventory.get(i).getCount();
+					product[row][6] = true;
 					break;
 				}
 			}
-			
-			for(int i = rows.size(); i > 0; i --){
-				int row = rows.get(i-1);
-				// change to add
-				//model.removeRow(row); 
-				//products.remove(row);
+			if(!isInInventory){
+				product[row][6] = false;
+				product[row][5] = 0;
 			}
+		
+			row++;	
+		}
+			model =  new DefaultTableModel(product, columnNames) {
+			
+			@Override
+			public boolean isCellEditable(int row, int column){
+			
+			return column == 6;
 			
 		}
-		else if(e.getActionCommand()==("Cancel")){
 			
+
+			//
+		    // This method is used by the JTable to define the default
+		    // renderer or editor for each cell. For example if you have
+		    // a boolean data it will be rendered as a check box. A
+		    // number value is right aligned.
+		    //
+			
+		    @Override
+		    public Class<?> getColumnClass(int columnIndex) {
+		        return product[0][columnIndex].getClass();
+		    }
+		
+		};
+		
+		
+		table = new JTable(model);
+		JScrollPane scrollPane = new JScrollPane(table);
+		add(scrollPane, BorderLayout.CENTER);
+	
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+
+		if(e.getActionCommand()==("Add")){
+			ArrayList<Integer> rows = new ArrayList<Integer>();
+			for(int i = 0; i <table.getRowCount(); i ++){
+				if((Boolean)table.getValueAt(i, 6)==true) {
+					rows.add(i);
+					InventoryProduct product = new InventoryProduct(products.get(i));
+					product.setCount(10);
+					db.addProductToInventory(product.getSupermarketID(), product);
+				}
+				else{
+					
+				}
+			}
+		}
+		else if(e.getActionCommand()==("Cancel")){
+			super.dispose();
 		}
 		else if(e.getActionCommand()==("Search")){
 			// some search() method will go here
 		}
-		else if(e.getActionCommand()==("Reset")){ 
-			inventoryManagementSystemView.searchField.setText("");
+		else if(e.getActionCommand()==("Reset Field")){ 
+			searchTextField.setText("");
 		}
 	}
 
